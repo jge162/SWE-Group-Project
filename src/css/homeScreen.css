@@ -1,0 +1,87 @@
+#home-screen {
+    display: none;
+    width: 100%;
+    height: 600px;
+    justify-content: center;
+    background-color: rgb(255, 255, 255);
+  }
+  
+  #hs-1 {
+    display: flex;
+    align-self: center;
+    justify-content: center;
+    width: 50%;
+  }
+  
+  #item-list {
+    display: flex;
+    padding-top: 30px;
+    height: 505px;
+    width: 400px;
+    background-color: rgb(222, 224, 226);
+    justify-content: center;
+  }
+  
+  #hs-2 {
+    display: flex;
+    flex-direction: column;
+    flex-wrap: wrap;
+    align-content: center;
+    align-items: center;
+    align-self: center;
+    width: 50%;
+  }
+  
+  #total {
+    display: flex;
+    padding-top: 20px;
+    height: 235px;
+    width: 250px;
+    background-color: rgb(237, 239, 241);
+    align-content: center;
+    align-self: flex-start;
+    justify-content: center;
+    margin-bottom: 20px;
+  }
+  
+  .btn-design {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    align-self: flex-end;
+    border-radius: 8px;
+    background-color: rgb(173, 190, 215);
+    margin: 5px 0 5px 0;
+  }
+  
+  .btn-design:hover {
+    background-color: rgb(144, 160, 185);
+  }
+  
+  #cancel-btn {
+    width: 145px;
+    height: 40px;
+    margin: 5px 0 0 5px;
+  }
+  
+  #remove-btn {
+    width: 145px;
+    height: 40px;
+    margin: 5px 5px 0 0;
+  }
+  
+  #look-up-btn {
+    width: 300px;
+    height: 40px;
+  }
+  
+  #finish-btn {
+    width: 300px;
+    height: 90px;
+  }
+  
+  .item {
+    z-index: 1;
+    width: 100px;
+    height: 100px;
+  }

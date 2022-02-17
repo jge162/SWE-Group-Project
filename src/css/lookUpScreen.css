@@ -1,0 +1,143 @@
+#look-up-screen {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+    background-color: rgb(255, 255, 255);
+}
+
+#go-back-btn {
+    z-index: 1;
+    font-size: 20px;
+    color:rgb(43, 66, 129);
+    font-weight: bold;
+    padding-left: 20px;
+    padding-top: 30px;
+}
+
+#search-box {
+    z-index: 1;
+    display: flex;
+    width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+#search-text {
+    margin-left: 10px;
+}
+
+#arrows {
+    display: flex;
+    position: absolute;
+    flex-direction: row;
+    width: 1000px;
+    height: 600px;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.arrow-btn {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+.arrow {
+    width: 50px;
+}
+
+#item-options {
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    width: 90%;
+    padding: 0 5% 0 5%;
+    height: 100%;
+    justify-content: center;
+    padding-top: 50px;
+}
+
+.item-box {
+    display: flex;
+    width: 100px;
+    margin: 0 10px 0 10px;
+    flex-direction: column;
+    align-items: center;
+}
+
+.item-label {
+    font-size: 20px;
+}
+
+.item {
+    background-color: rgb(225, 235, 246);
+}
+
+
+#close1 {
+    display: flex;
+    align-self: flex-start;
+    margin-left: 20px;
+    margin-top: 15px;
+    width: 40px;
+    
+  }
+
+  #select-box1 {
+    display: none;
+    z-index: 1;
+    position: absolute;
+    align-items: center;
+    justify-content: center;
+    height: 600px;
+    width: 1000px;
+    background-color: rgba(144, 144, 144, 0.546);
+  }
+
+  #select-amount1 {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 400px;
+    width: 600px;
+    background-color: rgb(208, 215, 226);
+  }
+
+  #add-question {
+    font-size: 20px;
+    margin-bottom: 20px;
+  }
+
+  #add-amount {
+    width: 40px;
+    font-size: 30px;
+    height: 40px;
+    margin-bottom: 20px;
+  }
+
+  #number-pad {
+    display: flex;
+    align-content: center;
+    justify-content: center;
+    flex-wrap: wrap;
+    width: 290px;
+    height: 265px;
+    background-color: rgb(226, 227, 236);
+  }
+  
+  .number-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    width: 90px;
+    height: 60px;
+    background-color: rgb(201, 202, 212);
+    margin: 2px 2px 1px 2px;
+    border-radius: 3px;
+  }
+  
+  .number-btn:hover {
+    background-color: rgb(190, 191, 202);
+  }

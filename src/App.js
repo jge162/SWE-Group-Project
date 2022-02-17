@@ -1,37 +1,52 @@
 import './App.css';
+import CancelScreen from './cancelScreen';
+import HomeScreen from './homeScreen';
+import RemoveItemScreen from './removeItemScreen';
+import LookUpScreen from './lookUpScreen';
+import FinishScreen from './finishScreen';
 
 function App() {
-  var showWelcome = true;
-  const touchDetected = () => {
-    if (showWelcome) {
-      showWelcome = false;
-      document.querySelector('#welcome-screen').style.display = "none";
-      document.querySelector('#home-screen').style.display = "flex";
-    }
+  // window.onload = function() {
+  //   inactivityTime();
+  // }
+
+  // var inactivityTime = function () {
+  //   var time;
+  //   window.addEventListener('load', resetTimer, true);
+  //   var events = ['mousedown', 'mousemove', 'keypress', 'scroll', 'touchstart'];
+  //   events.forEach(function(name) {
+  //     document.addEventListener(name, resetTimer, true);
+  //   });
+  //   function logout() {
+  //     document.querySelector('#welcome-screen').style.display = "flex";
+  //     document.querySelector('#home-screen').style.display = "none";
+  //     document.querySelector('#cancel-screen').style.display = "none";
+  //     document.querySelector('#remove-item-screen').style.display = "none";
+  //     document.querySelector('#look-up-screen').style.display = "none";
+  //     document.querySelector('#finish-screen').style.display = "none";
+  //   }
+
+  //   function resetTimer() {
+  //       clearTimeout(time);
+  //       time = setTimeout(logout, 30000)
+  //   }
+  // };
+
+  const begin = () => {
+    document.querySelector('#welcome-screen').style.display = "none";
+    document.querySelector('#home-screen').style.display = "flex";
   }
-    
+
   return (
     <div className="App">
       <div className="register">
-        <div onClick={() => {touchDetected();}} id="interactive-screen">
-          <div id="welcome-screen"><div id="title1">Welcome</div><div id="title2">Touch to Begin</div></div>
-          <div id="home-screen">
-            <div id="total">Total</div>
-            <div id="number-pad">
-              <div onClick={() => null} className="number-btn">1</div>
-              <div onClick={() => null} className="number-btn">2</div>
-              <div onClick={() => null} className="number-btn">3</div>
-              <div onClick={() => null} className="number-btn">4</div>
-              <div onClick={() => null} className="number-btn">5</div>
-              <div onClick={() => null} className="number-btn">6</div>
-              <div onClick={() => null} className="number-btn">7</div>
-              <div onClick={() => null} className="number-btn">8</div>
-              <div onClick={() => null} className="number-btn">9</div>
-              <div onClick={() => null} className="number-btn">0</div>
-            </div>
-            <div id="look-up-btn">Look Up Item</div>
-            <div id="finish-btn">$ Finish and Pay</div>
-          </div>
+        <div id="interactive-screen">
+          <div onClick={() => {begin();}} id="welcome-screen"><div id="title1">Welcome</div><div id="title2">Touch to Begin</div></div>
+            <HomeScreen></HomeScreen>
+            <CancelScreen></CancelScreen>
+            <RemoveItemScreen></RemoveItemScreen>
+            <LookUpScreen></LookUpScreen>
+            <FinishScreen></FinishScreen>
         </div>
       </div>
     </div>
