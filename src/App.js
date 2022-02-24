@@ -1,7 +1,5 @@
 import './App.css';
-import CancelScreen from './cancelScreen';
 import HomeScreen from './homeScreen';
-import RemoveItemScreen from './removeItemScreen';
 import LookUpScreen from './lookUpScreen';
 import FinishScreen from './finishScreen';
 
@@ -39,15 +37,11 @@ function App() {
 
   return (
     <div className="App">
-      <div className="register">
         <div id="interactive-screen">
-          <div onClick={() => {begin();}} id="welcome-screen"><div id="title1">Welcome</div><div id="title2">Touch to Begin</div></div>
+          <div onClick={() => {begin();}} id="welcome-screen"><div style={{position: "absolute", marginTop:"-200px", color: "rgb(209, 209, 209)", fontSize:"25px", fontStyle:"italic"}}>Your Logo Here</div><div id="title1">Welcome</div><div id="title2">Touch anywhere to begin.</div></div>
             <HomeScreen></HomeScreen>
-            <CancelScreen></CancelScreen>
-            <RemoveItemScreen></RemoveItemScreen>
             <LookUpScreen></LookUpScreen>
             <FinishScreen></FinishScreen>
-        </div>
       </div>
     </div>
   );

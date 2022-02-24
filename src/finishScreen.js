@@ -1,4 +1,5 @@
 import './css/finishScreen.css';
+import backArrow from './media/Vector.png';
 
 const FinishScreen = ({ }) => {
     const goBack = () => {
@@ -7,12 +8,13 @@ const FinishScreen = ({ }) => {
     }
     return (
         <div id="finish-screen">
-            <div onClick={() => {goBack();}} id="go-back-btn"> {"<"} Go Back</div>
-            <div id="total-txt">Your total is: </div>
-            <div id="total-price">$40.83</div>
+            <img id="go-back-btn1" onClick={() => {goBack();}} src={backArrow} />
+            <div id="total-box">
+                <div id="total-txt">Grand Total: </div>
+                <div id="total-price">$40.83</div>
+            </div>
             <div id="pay-btn-box">
-                <div className="pay-btn">Pay with Card</div>
-                <div className="pay-btn">Pay with Cash</div>
+                <div id="pay-btn">Place Order</div>
             </div>
         </div>
     );

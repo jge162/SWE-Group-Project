@@ -3,6 +3,12 @@
   height: 100%;
   background-color: rgb(216, 227, 233);
   cursor: url('./media/hand.png'), auto;
+  -webkit-touch-callout: none; /* iOS Safari */
+  -webkit-user-select: none; /* Safari */
+   -khtml-user-select: none; /* Konqueror HTML */
+     -moz-user-select: none; /* Old versions of Firefox */
+      -ms-user-select: none; /* Internet Explorer/Edge */
+          user-select: none;
 }
 
 .App {
@@ -13,16 +19,6 @@
   justify-content: center;
   cursor: url('./media/hand.png'), auto;
 
-}
-.register {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  width: 1100px;
-  height: 670px;
-  background-image: linear-gradient(to bottom right, rgb(0, 0, 0), rgb(35, 35, 35), rgb(0, 0, 0), rgb(40, 40, 40));
-  border-radius: 30px;
-  border: rgb(27, 27, 27) 10px solid;
 }
 
 #interactive-screen {
@@ -41,20 +37,25 @@
   justify-content: center;
   width: 100%;
   height: 100%;
-  background-color: rgb(80, 147, 119);
+  background-color: #ffffff;
 }
 
 #title1 {
-  font-family: 'Lemonada', cursive;
-  transform: scaleY(1.2);
-  font-size: 60px;
-  line-height: 90px;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 24px;
+  line-height: 36px;
+  text-align: center;
+  color: #A9B1D1;
 }
 
 #title2 {
-  font-family: 'Lemonada', cursive;
-  font-weight: 800;
-  font: 30px;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 14px;
+  line-height: 21px;
+  text-align: center;
+  color: #161D39;
   animation: fade 2s infinite;
 }
 
