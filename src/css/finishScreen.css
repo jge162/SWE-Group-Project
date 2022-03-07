@@ -6,13 +6,6 @@
     background: linear-gradient(90deg, #416EFE 71px, #ffffff 0px);
 }
 
-#go-back-btn1 {
-  width: 16px;
-  height: 16px;
-  margin-top: 30px;
-  margin-left: 28px;
-}
-
 #total-box {
     display: flex;
     flex-direction: column;
@@ -23,7 +16,7 @@
     height: 117px;
     background: #F6FAFD;
     border-radius: 8px;
-    margin: 174px 0 57px 0;
+    margin: 115px 0 57px 0;
 }
 
 #total-txt {
@@ -52,18 +45,11 @@
     justify-content: center;
     width: 175px;
     height: 58px;
-    left: 330px;
-    top: 348px;
     background: #31BF61;
     border-radius: 8px;
-}
-
-#pay-btn {
-    display: flex;
     font-family: Poppins;
     font-weight: 600;
     font-size: 11px;
     line-height: 16px;
-    text-align: center;
     color: #FFFFFF;
 }

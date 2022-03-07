@@ -1,48 +1,51 @@
 import './css/homeScreen.css';
+import React, { useState } from 'react';
+import groceryUtils from './grocery';
+import GroceryItem from './groceryItem';
 
-const HomeScreen = ({ }) => {
+function HomeScreen() {
+    
     const lookUpScreen = () => {
         document.querySelector('#home-screen').style.display = "none";
         document.querySelector('#look-up-screen').style.display = "flex";
     }
 
     const finishScreen = () => {
-        document.querySelector('#home-screen').style.display = "none";
-        document.querySelector('#finish-screen').style.display = "flex";
+        // goes to grand total only if there is a price over $0
+        if (document.querySelector("#grand-total-amount").innerText !== "$0.00") {
+            document.querySelector('#home-screen').style.display = "none";
+            document.querySelector('#finish-screen').style.display = "flex";
+        }
     }
 
     const retrieveScreen = () => {
         document.querySelector('#retrieve-screen').style.display = "flex";
     }
 
-    const cancelScreen = () => {
-        document.querySelector('#cancel-box').style.display = "flex";
-    }
-
-    const noOption = () => {
-        document.querySelector('#cancel-box').style.display = "none";
-    }
-    
-    const yesOption = () => {
-        document.querySelector('#cancel-box').style.display = "none";
-        document.querySelector('#home-screen').style.display = "none";
-        document.querySelector('#welcome-screen').style.display = "flex";
-    }
-
     const removeItems = () => {
-        document.querySelector('.item-count').style.backgroundColor = "#416EFE";
-        document.querySelector('.item-count').style.color = "#FFFFFF";     
-        document.querySelector('.item-cost-box').style.display = "none";
-        document.querySelector('.item-remove-box').style.display = "flex";
-        document.querySelector('#done-btn').style.display = "flex";
+        if (document.querySelector(".item-info")) {
+            for(var i=0; i< document.getElementsByClassName('item-count').length; i++){
+                document.getElementsByClassName('item-count')[i].style.backgroundColor = "#416EFE";
+                document.getElementsByClassName('item-count')[i].style.color = "#FFFFFF";
+                document.getElementsByClassName('item-cost-box')[i].style.display = "none";
+                document.getElementsByClassName('item-remove-box')[i].style.display = "flex";
+            }
+
+            document.querySelector('#done-btn').style.display = "flex";
+            document.querySelector("#block-hs-2").style.display = "flex"
+        }
     }
 
     const doneRemove = () => {   
-        document.querySelector('.item-count').style.backgroundColor = "#E9F2F9";     
-        document.querySelector('.item-count').style.color = "#161D39";     
-        document.querySelector('.item-cost-box').style.display = "flex";
-        document.querySelector('.item-remove-box').style.display = "none";
-        document.querySelector('#done-btn').style.display = "none";    
+        for (var i=0; i< document.getElementsByClassName('item-count').length; i++){
+            document.getElementsByClassName('item-count')[i].style.backgroundColor = "#E9F2F9";
+            document.getElementsByClassName('item-count')[i].style.color = "#161D39";
+            document.getElementsByClassName('item-cost-box')[i].style.display = "flex";
+            document.getElementsByClassName('item-remove-box')[i].style.display = "none";
+        }
+
+        document.querySelector('#done-btn').style.display = "none";   
+        document.querySelector("#block-hs-2").style.display = "none";
     }
 
     const close = () => {
@@ -62,10 +65,10 @@ const HomeScreen = ({ }) => {
     }
 
     const enterCode = () => {
-        var retrieveCode = document.querySelector("#output").value;
+        // var retrieveCode = document.querySelector("#output").value;
         document.querySelector('#retrieve-screen').style.display = "none";
         //if retreiveCode exists
-        // pull up list
+        //  pull up list
         // else
         document.querySelector('#code-error').style.display = "flex";
         document.querySelector("#output").value = "";
@@ -75,33 +78,67 @@ const HomeScreen = ({ }) => {
         document.querySelector('#code-error').style.display = "none";
     }
 
+    const cancelScreen = () => {
+        document.querySelector('#cancel-box').style.display = "flex";
+    }
+
+    const noOption = () => {
+        document.querySelector('#cancel-box').style.display = "none";
+    }
+    
+    const [groceryList, setGroceryList] = useState(groceryUtils.get());
+
+    const yesOption = () => {
+        document.querySelector('#cancel-box').style.display = "none";
+        document.querySelector('#home-screen').style.display = "none";
+        document.querySelector('#welcome-screen').style.display = "flex";
+
+        groceryUtils.clear();
+        setGroceryList(groceryUtils.get());
+    }
+
+    const deleteHandler = (id) => {
+        groceryUtils.remove(id);
+        setGroceryList(groceryUtils.get());
+      };
+    
+      const removeOneHandler = (id, quantity) => {
+        groceryUtils.removeOne(id, quantity);
+        setGroceryList(groceryUtils.get());
+      };
+
+    function handleChange() {
+        setGroceryList(groceryUtils.get());
+      }
+
     return (
         <div id="home-screen">
             <div id="hs-1">
                 <div id="item-title">Selected Items<div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve Order</div></div>
-                
                 <div id="item-list">
-                    <div className="item-info">
-                        <div className="item-count">2</div>
-                        <div className="item-name">Apple</div>
-                        <div className="item-cost-box">
-                            <div className="item-cost">$11.27</div>
-                            <div className="separator"></div>
-                            <div className="item-total">$5.50 total</div>
-                        </div>
-                        <div className="item-remove-box">
-                            <div className="remove-all-btn">Remove all</div>
-                            <div className="remove-one-btn">Remove 1</div>
-                        </div>
-                    </div>
+                <button id="refresh" type="button" onClick={handleChange}>
+                    Add
+                </button>
+                    {/* Item divs get added here */}
+                    {[...groceryList].map((listItem) =>
+                        <GroceryItem
+                            key={listItem.id}
+                            id={listItem.id}
+                            quantity={listItem.quantity}
+                            name={listItem.name}
+                            remoneOne={removeOneHandler}
+                            delete={deleteHandler}
+                        />
+                    )}
                 </div>
-                
-
                 <div onClick={() => {doneRemove();}} id="done-btn">Done</div>
             </div>
             <div id="retrieve-screen">
                 <div id="enter-code">
-                    <div onClick={() => {close();}} id="close-retrieve"> X</div>
+                    <svg id="close-retrieve" onClick={() => {close();}} width="16" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect x="0.826508" y="16.068" width="20" height="2" transform="rotate(-51.2253 0.826508 16.068)" fill="#161D39"/>
+                        <rect x="2.20688" y="0.594833" width="20" height="2" transform="rotate(50 2.20688 0.594833)" fill="#161D39"/>
+                    </svg>
                     <div id="instruct-txt">Enter the code of your past order.</div>
                     <input readOnly type="text" name="output" id="output"></input>
                     <div className="virtual-keyboard">
@@ -116,7 +153,7 @@ const HomeScreen = ({ }) => {
                             <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="8"></input>
                             <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="9"></input>
                             <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="0"></input>
-                            <input onClick={() => {removeKey();}} className="key" type="button" value="delete" className="delete"></input>
+                            <input onClick={() => {removeKey();}} type="button" value="delete" className="delete"></input>
                         </div>
                         <div className="row">
                             <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="q"></input>
@@ -171,9 +208,9 @@ const HomeScreen = ({ }) => {
                 <div>
                     <div id="total-title">Total</div>
                     <div id="total-calc">
-                        <div id="subtotal-box">Subtotal:<div id="subtotal-amount"> $12.54</div></div>
-                        <div id="sales-tax-box">Sales Tax:<div id="sales-tax-amount">$2.32</div></div>
-                        <div id="grand-total-box">Grand Total: <div id="grand-total-amount">$14.86</div></div>
+                        <div id="subtotal-box">Subtotal:<div id="subtotal-amount"> $0.00</div></div>
+                        <div id="sales-tax-box">Sales Tax:<div id="sales-tax-amount">$0.00</div></div>
+                        <div id="grand-total-box">Grand Total: <div id="grand-total-amount">$0.00</div></div>
                     </div>
                 </div>
                 <div onClick={() => {finishScreen();}} className="btn-design" id="finish-btn">Complete Order</div>
@@ -182,6 +219,7 @@ const HomeScreen = ({ }) => {
                     <div onClick={() => removeItems()} className="btn-design" id="remove-btn">Remove Item</div>
                     <div onClick={() => {cancelScreen();}} className="btn-design" id="cancel-btn">Cancel Process</div>
                 </div>
+                <div id="block-hs-2"></div>
             </div>
 
             <div id="cancel-box">

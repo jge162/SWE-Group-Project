@@ -6,17 +6,14 @@
     background: linear-gradient(90deg, #416EFE 71px, #ffffff 0px);
 }
 
-#go-back-btn1 {
-  width: 16px;
-  height: 16px;
-  margin-top: 30px;
-  margin-left: 28px;
+#go-back-btn {
+  margin-top: 15px;
+  padding: 15px 28px 13px 28px;
 }
 
 .search {
   display: flex;
   justify-content: center;
-  margin-top: 13px;
 }
 
 #search-bar {
@@ -71,7 +68,7 @@
   #close-add {
     display: flex;
     align-self: flex-start;
-    margin: 15px 20px 15px 20px;
+    padding: 20px 25px 10px 25px;
     cursor: pointer;
     width: 20px;
     height: 20px;
@@ -81,7 +78,7 @@
   #add-box {
     display: none;
     position: absolute;
-    margin: -147px 0 0 -185px;
+    margin: -150px 0 0 -185px;
     justify-content: center;
     align-items: center;
     z-index: 2;
@@ -108,7 +105,7 @@
     text-align: center;
     color: #161D39;
     white-space: pre-wrap;
-    margin-top: 15px;
+    margin-top: 10px;
   }
 
   #add-amount {
@@ -126,7 +123,7 @@
     line-height: 16px;
     text-align: center;
     color: #161D39;
-    margin-top: 28px;
+    margin-top: 20px;
     margin-bottom: 27px;
   }
 
@@ -153,29 +150,24 @@
     line-height: 16px;
     text-align: center;
     color: #FFFFFF;
+    border: none;
   }
   
   .number-btn:hover {
     background-color: #212a4e;
   }
 
-  .enter-btn {
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-family: Poppins;
-    font-weight: 600;
-    font-size: 11px;
-    line-height: 16px;
-    text-align: center;
-    color: #FFFFFF;
-    width: 80px;
-    height: 38px;
-    background-color: #31BF61;
+  #delete-btn-num {
+    background-color: #DE5050;
+    border: none;
     border-radius: 8px;
   }
 
-  .enter-btn:hover {
+  #enter-btn-num {
+    background-color: #31BF61;
+  }
+
+  .enter-btn-num:hover {
     background-color: #3fcc6e;
   }
 
@@ -202,11 +194,9 @@
 
   #close-search {
     display: flex;
-    align-self: flex-start;
-    margin-left: -60px;
+    margin-left: -70px;
     cursor: pointer;
-    width: 20px;
-    height: 10px;
+    font-family: Poppins;
     color: #161D39;
   }
 
