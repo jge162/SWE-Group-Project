@@ -8,9 +8,9 @@ function GroceryList(props) {
                 <div className="item-count">{props.quantity}</div>
                 <div className="item-name">{props.name}</div>
                 <div className="item-cost-box">
-                    <div className="item-cost">$1.27</div>
+                    <div className="item-cost">${props.price}</div>
                     <div className="separator"></div>
-                    <div className="item-total">$2.54 total</div>
+                    <div className="item-total">${props.total} total</div>
                 </div>
                 <div className="item-remove-box">
                     <div onClick={() => props.delete(props.id)} className="remove-all-btn">Remove all</div>
@@ -22,9 +22,11 @@ function GroceryList(props) {
 }
 
 GroceryList.propTypes = {
-    id: PropTypes.number.isRequired,
+    id: PropTypes.string.isRequired,
     name: PropTypes.string.isRequired,
     quantity: PropTypes.number.isRequired,
+    price: PropTypes.string.isRequired,
+    total: PropTypes.string.isRequired,
     remoneOne: PropTypes.func.isRequired,
     delete: PropTypes.func.isRequired,
 };

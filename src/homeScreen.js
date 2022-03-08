@@ -4,236 +4,305 @@ import groceryUtils from './grocery';
 import GroceryItem from './groceryItem';
 
 function HomeScreen() {
-    
-    const lookUpScreen = () => {
-        document.querySelector('#home-screen').style.display = "none";
-        document.querySelector('#look-up-screen').style.display = "flex";
-    }
+  const lookUpScreen = () => {
+    document.querySelector('#home-screen').style.display = "none";
+    document.querySelector('#look-up-screen').style.display = "flex";
+  }
 
-    const finishScreen = () => {
-        // goes to grand total only if there is a price over $0
-        if (document.querySelector("#grand-total-amount").innerText !== "$0.00") {
-            document.querySelector('#home-screen').style.display = "none";
-            document.querySelector('#finish-screen').style.display = "flex";
+  const finishScreen = () => {
+    // goes to grand total only if there is a price over $0
+    if (groceryList.length !== 0) {
+      document.querySelector('#home-screen').style.display = "none";
+      document.querySelector('#finish-screen').style.display = "flex";
+    }
+    else {
+      document.querySelector("#pop-up-1").style.animation = "2s fadeIn linear"
+    }
+  }
+
+  const retrieveScreen = () => {
+    document.querySelector('#retrieve-screen').style.display = "flex";
+  }
+
+  const saveOrder = () => {
+    if (groceryList.length !== 0) {
+      document.querySelector('#save-box').style.display = "flex";
+    }
+    else {
+      document.querySelector("#pop-up-3").style.animation = "2s fadeIn linear"
+    }
+  }
+
+  const okaySelect = () => {
+    document.querySelector('#save-box').style.display = "none";
+    document.querySelector('#home-screen').style.display = "none";
+    document.querySelector('#welcome-screen').style.display = "flex";
+    groceryUtils.clear();
+    setGroceryList(groceryUtils.get());
+    localStorage.setItem("total", JSON.stringify([]));
+  }
+
+  const removeItems = () => {
+    if (groceryList.length !== 0) {
+      if (document.querySelector(".item-info")) {
+        for(var i=0; i< document.getElementsByClassName('item-count').length; i++){
+          document.getElementsByClassName('item-count')[i].style.backgroundColor = "#416EFE";
+          document.getElementsByClassName('item-count')[i].style.color = "#FFFFFF";
+          document.getElementsByClassName('item-cost-box')[i].style.display = "none";
+          document.getElementsByClassName('item-remove-box')[i].style.display = "flex";
         }
-    }
 
-    const retrieveScreen = () => {
-        document.querySelector('#retrieve-screen').style.display = "flex";
-    }
-
-    const removeItems = () => {
-        if (document.querySelector(".item-info")) {
-            for(var i=0; i< document.getElementsByClassName('item-count').length; i++){
-                document.getElementsByClassName('item-count')[i].style.backgroundColor = "#416EFE";
-                document.getElementsByClassName('item-count')[i].style.color = "#FFFFFF";
-                document.getElementsByClassName('item-cost-box')[i].style.display = "none";
-                document.getElementsByClassName('item-remove-box')[i].style.display = "flex";
-            }
-
-            document.querySelector('#done-btn').style.display = "flex";
-            document.querySelector("#block-hs-2").style.display = "flex"
-        }
-    }
-
-    const doneRemove = () => {   
-        for (var i=0; i< document.getElementsByClassName('item-count').length; i++){
-            document.getElementsByClassName('item-count')[i].style.backgroundColor = "#E9F2F9";
-            document.getElementsByClassName('item-count')[i].style.color = "#161D39";
-            document.getElementsByClassName('item-cost-box')[i].style.display = "flex";
-            document.getElementsByClassName('item-remove-box')[i].style.display = "none";
-        }
-
-        document.querySelector('#done-btn').style.display = "none";   
-        document.querySelector("#block-hs-2").style.display = "none";
-    }
-
-    const close = () => {
-        document.querySelector('#retrieve-screen').style.display = "none";
-        document.querySelector("#output").value = "";
-    }
-
-    const pressKey = (value) => {
-        var prevText = document.querySelector("#output").value;
-        document.querySelector("#output").value = prevText + value
-    }
-
-    const removeKey = () => {
-        var prevText = document.querySelector("#output").value;
-        prevText = prevText.slice(0, -1);
-        document.querySelector("#output").value = prevText
-    }
-
-    const enterCode = () => {
-        // var retrieveCode = document.querySelector("#output").value;
-        document.querySelector('#retrieve-screen').style.display = "none";
-        //if retreiveCode exists
-        //  pull up list
-        // else
-        document.querySelector('#code-error').style.display = "flex";
-        document.querySelector("#output").value = "";
-    }
-
-    const closeError = () => {
-        document.querySelector('#code-error').style.display = "none";
-    }
-
-    const cancelScreen = () => {
-        document.querySelector('#cancel-box').style.display = "flex";
-    }
-
-    const noOption = () => {
-        document.querySelector('#cancel-box').style.display = "none";
-    }
-    
-    const [groceryList, setGroceryList] = useState(groceryUtils.get());
-
-    const yesOption = () => {
-        document.querySelector('#cancel-box').style.display = "none";
-        document.querySelector('#home-screen').style.display = "none";
-        document.querySelector('#welcome-screen').style.display = "flex";
-
-        groceryUtils.clear();
-        setGroceryList(groceryUtils.get());
-    }
-
-    const deleteHandler = (id) => {
-        groceryUtils.remove(id);
-        setGroceryList(groceryUtils.get());
-      };
-    
-      const removeOneHandler = (id, quantity) => {
-        groceryUtils.removeOne(id, quantity);
-        setGroceryList(groceryUtils.get());
-      };
-
-    function handleChange() {
-        setGroceryList(groceryUtils.get());
+      document.querySelector('#done-btn').style.display = "flex";
+      document.querySelector("#block-hs-2").style.display = "flex"
       }
+    }
+    else {
+      document.querySelector("#pop-up-2").style.animation = "2s fadeIn linear"
+    }
+  }
 
-    return (
-        <div id="home-screen">
-            <div id="hs-1">
-                <div id="item-title">Selected Items<div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve Order</div></div>
-                <div id="item-list">
-                <button id="refresh" type="button" onClick={handleChange}>
-                    Add
-                </button>
-                    {/* Item divs get added here */}
-                    {[...groceryList].map((listItem) =>
-                        <GroceryItem
-                            key={listItem.id}
-                            id={listItem.id}
-                            quantity={listItem.quantity}
-                            name={listItem.name}
-                            remoneOne={removeOneHandler}
-                            delete={deleteHandler}
-                        />
-                    )}
-                </div>
-                <div onClick={() => {doneRemove();}} id="done-btn">Done</div>
-            </div>
-            <div id="retrieve-screen">
-                <div id="enter-code">
-                    <svg id="close-retrieve" onClick={() => {close();}} width="16" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
-                        <rect x="0.826508" y="16.068" width="20" height="2" transform="rotate(-51.2253 0.826508 16.068)" fill="#161D39"/>
-                        <rect x="2.20688" y="0.594833" width="20" height="2" transform="rotate(50 2.20688 0.594833)" fill="#161D39"/>
-                    </svg>
-                    <div id="instruct-txt">Enter the code of your past order.</div>
-                    <input readOnly type="text" name="output" id="output"></input>
-                    <div className="virtual-keyboard">
-                        <div className="row">
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="1"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="2"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="3"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="4"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="5"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="6"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="7"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="8"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="9"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="0"></input>
-                            <input onClick={() => {removeKey();}} type="button" value="delete" className="delete"></input>
-                        </div>
-                        <div className="row">
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="q"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="w"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="e"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="r"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="t"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="y"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="u"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="i"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="o"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="p"></input>
-                        </div>
-                        <div className="row">
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="a"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="s"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="d"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="f"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="g"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="h"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="j"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="k"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="l"></input>
-                        </div>
-                        <div className="row">
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="z"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="x"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="c"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="v"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="b"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="n"></input>
-                            <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="m"></input>
-                        </div>
-                        <div className="row-spacebar">
-                            <input onClick={e => {pressKey(e.target.value);}} className="spacebar" type="button" value=" "></input>
-                        </div>
-                        <div onClick={() => {enterCode();}} id="enter-btn">Enter</div>
-                    </div>
-                </div>
-            </div>
+  const doneRemove = () => {   
+    for (var i=0; i< document.getElementsByClassName('item-count').length; i++){
+      document.getElementsByClassName('item-count')[i].style.backgroundColor = "#E9F2F9";
+      document.getElementsByClassName('item-count')[i].style.color = "#161D39";
+      document.getElementsByClassName('item-cost-box')[i].style.display = "flex";
+      document.getElementsByClassName('item-remove-box')[i].style.display = "none";
+    }
 
-            <div id="code-error">
-                <div id="error-screen">
-                    <div id="cancel-txt">The code you entered does not exist. Please try again. </div>
-                    <div style={{display:"flex", flexDirection:"row"}}>
-                        <div onClick={() => {closeError();}} className="cancel-opt">Ok</div>
-                    </div>
-                </div>
-            </div>
+    document.querySelector('#done-btn').style.display = "none";   
+    document.querySelector("#block-hs-2").style.display = "none";
+  }
 
-            <div id="hs-2">
-                <div>
-                    <div id="total-title">Total</div>
-                    <div id="total-calc">
-                        <div id="subtotal-box">Subtotal:<div id="subtotal-amount"> $0.00</div></div>
-                        <div id="sales-tax-box">Sales Tax:<div id="sales-tax-amount">$0.00</div></div>
-                        <div id="grand-total-box">Grand Total: <div id="grand-total-amount">$0.00</div></div>
-                    </div>
-                </div>
-                <div onClick={() => {finishScreen();}} className="btn-design" id="finish-btn">Complete Order</div>
-                <div onClick={() => {lookUpScreen();}} className="btn-design" id="look-up-btn">Look Up Item</div>
-                <div style={{display: "flex", flexDirection: "row"}}>
-                    <div onClick={() => removeItems()} className="btn-design" id="remove-btn">Remove Item</div>
-                    <div onClick={() => {cancelScreen();}} className="btn-design" id="cancel-btn">Cancel Process</div>
-                </div>
-                <div id="block-hs-2"></div>
-            </div>
+  const close = () => {
+    document.querySelector('#retrieve-screen').style.display = "none";
+    document.querySelector("#output").value = "";
+  }
 
-            <div id="cancel-box">
-                <div id="cancel-screen">
-                    <div id="cancel-txt">Are you sure you want to exit? All of your items will be removed.</div>
-                    <div style={{display:"flex", flexDirection:"row"}}>
-                        <div onClick={() => {noOption();}} className="cancel-opt">No</div>
-                        <div style={{backgroundColor: "#474951"}} onClick={() => {yesOption();}} className="cancel-opt">Yes</div>
-                    </div>
+  const pressKey = (value) => {
+    var prevText = document.querySelector("#output").value;
+    document.querySelector("#output").value = prevText + value
+  }
+
+  const removeKey = () => {
+    var prevText = document.querySelector("#output").value;
+    prevText = prevText.slice(0, -1);
+    document.querySelector("#output").value = prevText
+  }
+
+  const enterCode = () => {
+    // var retrieveCode = document.querySelector("#output").value;
+    document.querySelector('#retrieve-screen').style.display = "none";
+    //if retreiveCode exists
+    //  pull up list
+    // else
+    document.querySelector('#code-error').style.display = "flex";
+    document.querySelector("#output").value = "";
+  }
+
+  const closeError = () => {
+    document.querySelector('#code-error').style.display = "none";
+  }
+
+  const cancelScreen = () => {
+    document.querySelector('#cancel-box').style.display = "flex";
+  }
+
+  const noOption = () => {
+    document.querySelector('#cancel-box').style.display = "none";
+  }
+  
+  const [groceryList, setGroceryList] = useState(groceryUtils.get());
+
+  const yesOption = () => {
+    document.querySelector('#cancel-box').style.display = "none";
+    document.querySelector('#home-screen').style.display = "none";
+    document.querySelector('#welcome-screen').style.display = "flex";
+
+    groceryUtils.clear();
+    setGroceryList(groceryUtils.get());
+    localStorage.setItem("total", JSON.stringify([]));
+  }
+
+  const deleteHandler = (id) => {
+    groceryUtils.remove(id);
+    setGroceryList(groceryUtils.get());
+	var subTotal = 0;
+    [...groceryUtils.get()].map((listItem) =>
+      subTotal += Number(listItem.total)
+    )
+
+    var salesTax = subTotal * 0.0825
+    var grandTotal = subTotal + salesTax
+    localStorage.setItem("total", JSON.stringify([subTotal.toFixed(2), salesTax.toFixed(2), grandTotal.toFixed(2)]));
+  };
+  
+  const removeOneHandler = (id, quantity) => {
+    groceryUtils.removeOne(id, quantity);
+    setGroceryList(groceryUtils.get());
+	var subTotal = 0;
+    [...groceryUtils.get()].map((listItem) =>
+      subTotal += Number(listItem.total)
+    )
+
+    var salesTax = subTotal * 0.0825
+    var grandTotal = subTotal + salesTax
+    localStorage.setItem("total", JSON.stringify([subTotal.toFixed(2), salesTax.toFixed(2), grandTotal.toFixed(2)]));
+  };
+
+  return (
+    <div id="home-screen">
+      	<div id="hs-1">
+        <div id="save-error">
+          <svg id="pop-up-3" width="216" height="39" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect x="0.5" y="0.5" width="215" height="29" rx="7.5" fill="white" stroke="black"/>
+              <path d="M29.936 13.216C29.936 13.664 29.828 14.084 29.612 14.476C29.404 14.868 29.072 15.184 28.616 15.424C28.168 15.664 27.6 15.784 26.912 15.784H25.508V19H23.828V10.624H26.912C27.56 10.624 28.112 10.736 28.568 10.96C29.024 11.184 29.364 11.492 29.588 11.884C29.82 12.276 29.936 12.72 29.936 13.216ZM26.84 14.428C27.304 14.428 27.648 14.324 27.872 14.116C28.096 13.9 28.208 13.6 28.208 13.216C28.208 12.4 27.752 11.992 26.84 11.992H25.508V14.428H26.84ZM32.8088 10.12V19H31.1288V10.12H32.8088ZM40.6486 15.532C40.6486 15.772 40.6326 15.988 40.6006 16.18H35.7406C35.7806 16.66 35.9486 17.036 36.2446 17.308C36.5406 17.58 36.9046 17.716 37.3366 17.716C37.9606 17.716 38.4046 17.448 38.6686 16.912H40.4806C40.2886 17.552 39.9206 18.08 39.3766 18.496C38.8326 18.904 38.1646 19.108 37.3726 19.108C36.7326 19.108 36.1566 18.968 35.6446 18.688C35.1406 18.4 34.7446 17.996 34.4566 17.476C34.1766 16.956 34.0366 16.356 34.0366 15.676C34.0366 14.988 34.1766 14.384 34.4566 13.864C34.7366 13.344 35.1286 12.944 35.6326 12.664C36.1366 12.384 36.7166 12.244 37.3726 12.244C38.0046 12.244 38.5686 12.38 39.0646 12.652C39.5686 12.924 39.9566 13.312 40.2286 13.816C40.5086 14.312 40.6486 14.884 40.6486 15.532ZM38.9086 15.052C38.9006 14.62 38.7446 14.276 38.4406 14.02C38.1366 13.756 37.7646 13.624 37.3246 13.624C36.9086 13.624 36.5566 13.752 36.2686 14.008C35.9886 14.256 35.8166 14.604 35.7526 15.052H38.9086ZM41.4429 15.652C41.4429 14.98 41.5749 14.384 41.8389 13.864C42.1109 13.344 42.4749 12.944 42.9309 12.664C43.3949 12.384 43.9109 12.244 44.4789 12.244C44.9749 12.244 45.4069 12.344 45.7749 12.544C46.1509 12.744 46.4509 12.996 46.6749 13.3V12.352H48.3669V19H46.6749V18.028C46.4589 18.34 46.1589 18.6 45.7749 18.808C45.3989 19.008 44.9629 19.108 44.4669 19.108C43.9069 19.108 43.3949 18.964 42.9309 18.676C42.4749 18.388 42.1109 17.984 41.8389 17.464C41.5749 16.936 41.4429 16.332 41.4429 15.652ZM46.6749 15.676C46.6749 15.268 46.5949 14.92 46.4349 14.632C46.2749 14.336 46.0589 14.112 45.7869 13.96C45.5149 13.8 45.2229 13.72 44.9109 13.72C44.5989 13.72 44.3109 13.796 44.0469 13.948C43.7829 14.1 43.5669 14.324 43.3989 14.62C43.2389 14.908 43.1589 15.252 43.1589 15.652C43.1589 16.052 43.2389 16.404 43.3989 16.708C43.5669 17.004 43.7829 17.232 44.0469 17.392C44.3189 17.552 44.6069 17.632 44.9109 17.632C45.2229 17.632 45.5149 17.556 45.7869 17.404C46.0589 17.244 46.2749 17.02 46.4349 16.732C46.5949 16.436 46.6749 16.084 46.6749 15.676ZM52.5517 19.108C52.0077 19.108 51.5197 19.012 51.0877 18.82C50.6557 18.62 50.3117 18.352 50.0557 18.016C49.8077 17.68 49.6717 17.308 49.6477 16.9H51.3397C51.3717 17.156 51.4957 17.368 51.7117 17.536C51.9357 17.704 52.2117 17.788 52.5397 17.788C52.8597 17.788 53.1077 17.724 53.2837 17.596C53.4677 17.468 53.5597 17.304 53.5597 17.104C53.5597 16.888 53.4477 16.728 53.2237 16.624C53.0077 16.512 52.6597 16.392 52.1797 16.264C51.6837 16.144 51.2757 16.02 50.9557 15.892C50.6437 15.764 50.3717 15.568 50.1397 15.304C49.9157 15.04 49.8037 14.684 49.8037 14.236C49.8037 13.868 49.9077 13.532 50.1157 13.228C50.3317 12.924 50.6357 12.684 51.0277 12.508C51.4277 12.332 51.8957 12.244 52.4317 12.244C53.2237 12.244 53.8557 12.444 54.3277 12.844C54.7997 13.236 55.0597 13.768 55.1077 14.44H53.4997C53.4757 14.176 53.3637 13.968 53.1637 13.816C52.9717 13.656 52.7117 13.576 52.3837 13.576C52.0797 13.576 51.8437 13.632 51.6757 13.744C51.5157 13.856 51.4357 14.012 51.4357 14.212C51.4357 14.436 51.5477 14.608 51.7717 14.728C51.9957 14.84 52.3437 14.956 52.8157 15.076C53.2957 15.196 53.6917 15.32 54.0037 15.448C54.3157 15.576 54.5837 15.776 54.8077 16.048C55.0397 16.312 55.1597 16.664 55.1677 17.104C55.1677 17.488 55.0597 17.832 54.8437 18.136C54.6357 18.44 54.3317 18.68 53.9317 18.856C53.5397 19.024 53.0797 19.108 52.5517 19.108ZM62.7268 15.532C62.7268 15.772 62.7108 15.988 62.6788 16.18H57.8188C57.8588 16.66 58.0268 17.036 58.3228 17.308C58.6188 17.58 58.9828 17.716 59.4148 17.716C60.0388 17.716 60.4828 17.448 60.7468 16.912H62.5588C62.3668 17.552 61.9988 18.08 61.4548 18.496C60.9108 18.904 60.2428 19.108 59.4508 19.108C58.8108 19.108 58.2348 18.968 57.7228 18.688C57.2188 18.4 56.8228 17.996 56.5348 17.476C56.2548 16.956 56.1147 16.356 56.1147 15.676C56.1147 14.988 56.2548 14.384 56.5348 13.864C56.8148 13.344 57.2068 12.944 57.7108 12.664C58.2148 12.384 58.7948 12.244 59.4508 12.244C60.0828 12.244 60.6468 12.38 61.1428 12.652C61.6468 12.924 62.0348 13.312 62.3068 13.816C62.5868 14.312 62.7268 14.884 62.7268 15.532ZM60.9868 15.052C60.9788 14.62 60.8228 14.276 60.5188 14.02C60.2148 13.756 59.8428 13.624 59.4028 13.624C58.9868 13.624 58.6348 13.752 58.3468 14.008C58.0668 14.256 57.8948 14.604 57.8308 15.052H60.9868ZM66.3804 15.652C66.3804 14.98 66.5124 14.384 66.7764 13.864C67.0484 13.344 67.4124 12.944 67.8684 12.664C68.3324 12.384 68.8484 12.244 69.4164 12.244C69.9124 12.244 70.3444 12.344 70.7124 12.544C71.0884 12.744 71.3884 12.996 71.6124 13.3V12.352H73.3044V19H71.6124V18.028C71.3964 18.34 71.0964 18.6 70.7124 18.808C70.3364 19.008 69.9004 19.108 69.4044 19.108C68.8444 19.108 68.3324 18.964 67.8684 18.676C67.4124 18.388 67.0484 17.984 66.7764 17.464C66.5124 16.936 66.3804 16.332 66.3804 15.652ZM71.6124 15.676C71.6124 15.268 71.5324 14.92 71.3724 14.632C71.2124 14.336 70.9964 14.112 70.7244 13.96C70.4524 13.8 70.1604 13.72 69.8484 13.72C69.5364 13.72 69.2484 13.796 68.9844 13.948C68.7204 14.1 68.5044 14.324 68.3364 14.62C68.1764 14.908 68.0964 15.252 68.0964 15.652C68.0964 16.052 68.1764 16.404 68.3364 16.708C68.5044 17.004 68.7204 17.232 68.9844 17.392C69.2564 17.552 69.5444 17.632 69.8484 17.632C70.1604 17.632 70.4524 17.556 70.7244 17.404C70.9964 17.244 71.2124 17.02 71.3724 16.732C71.5324 16.436 71.6124 16.084 71.6124 15.676ZM74.5132 15.652C74.5132 14.98 74.6452 14.384 74.9092 13.864C75.1812 13.344 75.5492 12.944 76.0132 12.664C76.4772 12.384 76.9932 12.244 77.5612 12.244C77.9932 12.244 78.4052 12.34 78.7972 12.532C79.1892 12.716 79.5012 12.964 79.7332 13.276V10.12H81.4372V19H79.7332V18.016C79.5252 18.344 79.2332 18.608 78.8572 18.808C78.4812 19.008 78.0452 19.108 77.5492 19.108C76.9892 19.108 76.4772 18.964 76.0132 18.676C75.5492 18.388 75.1812 17.984 74.9092 17.464C74.6452 16.936 74.5132 16.332 74.5132 15.652ZM79.7452 15.676C79.7452 15.268 79.6652 14.92 79.5052 14.632C79.3452 14.336 79.1292 14.112 78.8572 13.96C78.5852 13.8 78.2932 13.72 77.9812 13.72C77.6692 13.72 77.3812 13.796 77.1172 13.948C76.8532 14.1 76.6372 14.324 76.4692 14.62C76.3092 14.908 76.2292 15.252 76.2292 15.652C76.2292 16.052 76.3092 16.404 76.4692 16.708C76.6372 17.004 76.8532 17.232 77.1172 17.392C77.3892 17.552 77.6772 17.632 77.9812 17.632C78.2932 17.632 78.5852 17.556 78.8572 17.404C79.1292 17.244 79.3452 17.02 79.5052 16.732C79.6652 16.436 79.7452 16.084 79.7452 15.676ZM82.646 15.652C82.646 14.98 82.778 14.384 83.042 13.864C83.314 13.344 83.682 12.944 84.146 12.664C84.61 12.384 85.126 12.244 85.694 12.244C86.126 12.244 86.538 12.34 86.93 12.532C87.322 12.716 87.634 12.964 87.866 13.276V10.12H89.57V19H87.866V18.016C87.658 18.344 87.366 18.608 86.99 18.808C86.614 19.008 86.178 19.108 85.682 19.108C85.122 19.108 84.61 18.964 84.146 18.676C83.682 18.388 83.314 17.984 83.042 17.464C82.778 16.936 82.646 16.332 82.646 15.652ZM87.878 15.676C87.878 15.268 87.798 14.92 87.638 14.632C87.478 14.336 87.262 14.112 86.99 13.96C86.718 13.8 86.426 13.72 86.114 13.72C85.802 13.72 85.514 13.796 85.25 13.948C84.986 14.1 84.77 14.324 84.602 14.62C84.442 14.908 84.362 15.252 84.362 15.652C84.362 16.052 84.442 16.404 84.602 16.708C84.77 17.004 84.986 17.232 85.25 17.392C85.522 17.552 85.81 17.632 86.114 17.632C86.426 17.632 86.718 17.556 86.99 17.404C87.262 17.244 87.478 17.02 87.638 16.732C87.798 16.436 87.878 16.084 87.878 15.676ZM93.6382 15.652C93.6382 14.98 93.7702 14.384 94.0342 13.864C94.3062 13.344 94.6702 12.944 95.1262 12.664C95.5902 12.384 96.1062 12.244 96.6742 12.244C97.1702 12.244 97.6022 12.344 97.9702 12.544C98.3462 12.744 98.6462 12.996 98.8702 13.3V12.352H100.562V19H98.8702V18.028C98.6542 18.34 98.3542 18.6 97.9702 18.808C97.5942 19.008 97.1582 19.108 96.6622 19.108C96.1022 19.108 95.5902 18.964 95.1262 18.676C94.6702 18.388 94.3062 17.984 94.0342 17.464C93.7702 16.936 93.6382 16.332 93.6382 15.652ZM98.8702 15.676C98.8702 15.268 98.7902 14.92 98.6302 14.632C98.4702 14.336 98.2542 14.112 97.9822 13.96C97.7102 13.8 97.4182 13.72 97.1062 13.72C96.7942 13.72 96.5062 13.796 96.2422 13.948C95.9782 14.1 95.7622 14.324 95.5942 14.62C95.4342 14.908 95.3542 15.252 95.3542 15.652C95.3542 16.052 95.4342 16.404 95.5942 16.708C95.7622 17.004 95.9782 17.232 96.2422 17.392C96.5142 17.552 96.8022 17.632 97.1062 17.632C97.4182 17.632 97.7102 17.556 97.9822 17.404C98.2542 17.244 98.4702 17.02 98.6302 16.732C98.7902 16.436 98.8702 16.084 98.8702 15.676ZM104.159 13.732V16.948C104.159 17.172 104.211 17.336 104.315 17.44C104.427 17.536 104.611 17.584 104.867 17.584H105.647V19H104.591C103.175 19 102.467 18.312 102.467 16.936V13.732H101.675V12.352H102.467V10.708H104.159V12.352H105.647V13.732H104.159ZM111.395 10.12V19H109.715V10.12H111.395ZM119.235 15.532C119.235 15.772 119.219 15.988 119.187 16.18H114.327C114.367 16.66 114.535 17.036 114.831 17.308C115.127 17.58 115.491 17.716 115.923 17.716C116.547 17.716 116.991 17.448 117.255 16.912H119.067C118.875 17.552 118.507 18.08 117.963 18.496C117.419 18.904 116.751 19.108 115.959 19.108C115.319 19.108 114.743 18.968 114.231 18.688C113.727 18.4 113.331 17.996 113.043 17.476C112.763 16.956 112.623 16.356 112.623 15.676C112.623 14.988 112.763 14.384 113.043 13.864C113.323 13.344 113.715 12.944 114.219 12.664C114.723 12.384 115.303 12.244 115.959 12.244C116.591 12.244 117.155 12.38 117.651 12.652C118.155 12.924 118.543 13.312 118.815 13.816C119.095 14.312 119.235 14.884 119.235 15.532ZM117.495 15.052C117.487 14.62 117.331 14.276 117.027 14.02C116.723 13.756 116.351 13.624 115.911 13.624C115.495 13.624 115.143 13.752 114.855 14.008C114.575 14.256 114.403 14.604 114.339 15.052H117.495ZM120.029 15.652C120.029 14.98 120.161 14.384 120.425 13.864C120.697 13.344 121.061 12.944 121.517 12.664C121.981 12.384 122.497 12.244 123.065 12.244C123.561 12.244 123.993 12.344 124.361 12.544C124.737 12.744 125.037 12.996 125.261 13.3V12.352H126.953V19H125.261V18.028C125.045 18.34 124.745 18.6 124.361 18.808C123.985 19.008 123.549 19.108 123.053 19.108C122.493 19.108 121.981 18.964 121.517 18.676C121.061 18.388 120.697 17.984 120.425 17.464C120.161 16.936 120.029 16.332 120.029 15.652ZM125.261 15.676C125.261 15.268 125.181 14.92 125.021 14.632C124.861 14.336 124.645 14.112 124.373 13.96C124.101 13.8 123.809 13.72 123.497 13.72C123.185 13.72 122.897 13.796 122.633 13.948C122.369 14.1 122.153 14.324 121.985 14.62C121.825 14.908 121.745 15.252 121.745 15.652C121.745 16.052 121.825 16.404 121.985 16.708C122.153 17.004 122.369 17.232 122.633 17.392C122.905 17.552 123.193 17.632 123.497 17.632C123.809 17.632 124.101 17.556 124.373 17.404C124.645 17.244 124.861 17.02 125.021 16.732C125.181 16.436 125.261 16.084 125.261 15.676ZM131.138 19.108C130.594 19.108 130.106 19.012 129.674 18.82C129.242 18.62 128.898 18.352 128.642 18.016C128.394 17.68 128.258 17.308 128.234 16.9H129.926C129.958 17.156 130.082 17.368 130.298 17.536C130.522 17.704 130.798 17.788 131.126 17.788C131.446 17.788 131.694 17.724 131.87 17.596C132.054 17.468 132.146 17.304 132.146 17.104C132.146 16.888 132.034 16.728 131.81 16.624C131.594 16.512 131.246 16.392 130.766 16.264C130.27 16.144 129.862 16.02 129.542 15.892C129.23 15.764 128.958 15.568 128.726 15.304C128.502 15.04 128.39 14.684 128.39 14.236C128.39 13.868 128.494 13.532 128.702 13.228C128.918 12.924 129.222 12.684 129.614 12.508C130.014 12.332 130.482 12.244 131.018 12.244C131.81 12.244 132.442 12.444 132.914 12.844C133.386 13.236 133.646 13.768 133.694 14.44H132.086C132.062 14.176 131.95 13.968 131.75 13.816C131.558 13.656 131.298 13.576 130.97 13.576C130.666 13.576 130.43 13.632 130.262 13.744C130.102 13.856 130.022 14.012 130.022 14.212C130.022 14.436 130.134 14.608 130.358 14.728C130.582 14.84 130.93 14.956 131.402 15.076C131.882 15.196 132.278 15.32 132.59 15.448C132.902 15.576 133.17 15.776 133.394 16.048C133.626 16.312 133.746 16.664 133.754 17.104C133.754 17.488 133.646 17.832 133.43 18.136C133.222 18.44 132.918 18.68 132.518 18.856C132.126 19.024 131.666 19.108 131.138 19.108ZM137.089 13.732V16.948C137.089 17.172 137.141 17.336 137.245 17.44C137.357 17.536 137.541 17.584 137.797 17.584H138.577V19H137.521C136.105 19 135.397 18.312 135.397 16.936V13.732H134.605V12.352H135.397V10.708H137.089V12.352H138.577V13.732H137.089ZM145.596 19.108C144.956 19.108 144.38 18.968 143.868 18.688C143.356 18.4 142.952 17.996 142.656 17.476C142.368 16.956 142.224 16.356 142.224 15.676C142.224 14.996 142.372 14.396 142.668 13.876C142.972 13.356 143.384 12.956 143.904 12.676C144.424 12.388 145.004 12.244 145.644 12.244C146.284 12.244 146.864 12.388 147.384 12.676C147.904 12.956 148.312 13.356 148.608 13.876C148.912 14.396 149.064 14.996 149.064 15.676C149.064 16.356 148.908 16.956 148.596 17.476C148.292 17.996 147.876 18.4 147.348 18.688C146.828 18.968 146.244 19.108 145.596 19.108ZM145.596 17.644C145.9 17.644 146.184 17.572 146.448 17.428C146.72 17.276 146.936 17.052 147.096 16.756C147.256 16.46 147.336 16.1 147.336 15.676C147.336 15.044 147.168 14.56 146.832 14.224C146.504 13.88 146.1 13.708 145.62 13.708C145.14 13.708 144.736 13.88 144.408 14.224C144.088 14.56 143.928 15.044 143.928 15.676C143.928 16.308 144.084 16.796 144.396 17.14C144.716 17.476 145.116 17.644 145.596 17.644ZM153.981 12.256C154.773 12.256 155.413 12.508 155.901 13.012C156.389 13.508 156.633 14.204 156.633 15.1V19H154.953V15.328C154.953 14.8 154.821 14.396 154.557 14.116C154.293 13.828 153.933 13.684 153.477 13.684C153.013 13.684 152.645 13.828 152.373 14.116C152.109 14.396 151.977 14.8 151.977 15.328V19H150.297V12.352H151.977V13.18C152.201 12.892 152.485 12.668 152.829 12.508C153.181 12.34 153.565 12.256 153.981 12.256ZM164.41 15.532C164.41 15.772 164.394 15.988 164.362 16.18H159.502C159.542 16.66 159.71 17.036 160.006 17.308C160.302 17.58 160.666 17.716 161.098 17.716C161.722 17.716 162.166 17.448 162.43 16.912H164.242C164.05 17.552 163.682 18.08 163.138 18.496C162.594 18.904 161.926 19.108 161.134 19.108C160.494 19.108 159.918 18.968 159.406 18.688C158.902 18.4 158.506 17.996 158.218 17.476C157.938 16.956 157.798 16.356 157.798 15.676C157.798 14.988 157.938 14.384 158.218 13.864C158.498 13.344 158.89 12.944 159.394 12.664C159.898 12.384 160.478 12.244 161.134 12.244C161.766 12.244 162.33 12.38 162.826 12.652C163.33 12.924 163.718 13.312 163.99 13.816C164.27 14.312 164.41 14.884 164.41 15.532ZM162.67 15.052C162.662 14.62 162.506 14.276 162.202 14.02C161.898 13.756 161.526 13.624 161.086 13.624C160.67 13.624 160.318 13.752 160.03 14.008C159.75 14.256 159.578 14.604 159.514 15.052H162.67ZM169.348 11.56C169.052 11.56 168.804 11.468 168.604 11.284C168.412 11.092 168.316 10.856 168.316 10.576C168.316 10.296 168.412 10.064 168.604 9.88C168.804 9.688 169.052 9.592 169.348 9.592C169.644 9.592 169.888 9.688 170.08 9.88C170.28 10.064 170.38 10.296 170.38 10.576C170.38 10.856 170.28 11.092 170.08 11.284C169.888 11.468 169.644 11.56 169.348 11.56ZM170.176 12.352V19H168.496V12.352H170.176ZM173.792 13.732V16.948C173.792 17.172 173.844 17.336 173.948 17.44C174.06 17.536 174.244 17.584 174.5 17.584H175.28V19H174.224C172.808 19 172.1 18.312 172.1 16.936V13.732H171.308V12.352H172.1V10.708H173.792V12.352H175.28V13.732H173.792ZM182.668 15.532C182.668 15.772 182.652 15.988 182.62 16.18H177.76C177.8 16.66 177.968 17.036 178.264 17.308C178.56 17.58 178.924 17.716 179.356 17.716C179.98 17.716 180.424 17.448 180.688 16.912H182.5C182.308 17.552 181.94 18.08 181.396 18.496C180.852 18.904 180.184 19.108 179.392 19.108C178.752 19.108 178.176 18.968 177.664 18.688C177.16 18.4 176.764 17.996 176.476 17.476C176.196 16.956 176.056 16.356 176.056 15.676C176.056 14.988 176.196 14.384 176.476 13.864C176.756 13.344 177.148 12.944 177.652 12.664C178.156 12.384 178.736 12.244 179.392 12.244C180.024 12.244 180.588 12.38 181.084 12.652C181.588 12.924 181.976 13.312 182.248 13.816C182.528 14.312 182.668 14.884 182.668 15.532ZM180.928 15.052C180.92 14.62 180.764 14.276 180.46 14.02C180.156 13.756 179.784 13.624 179.344 13.624C178.928 13.624 178.576 13.752 178.288 14.008C178.008 14.256 177.836 14.604 177.772 15.052H180.928ZM192.15 12.256C192.966 12.256 193.622 12.508 194.118 13.012C194.622 13.508 194.874 14.204 194.874 15.1V19H193.194V15.328C193.194 14.808 193.062 14.412 192.798 14.14C192.534 13.86 192.174 13.72 191.718 13.72C191.262 13.72 190.898 13.86 190.626 14.14C190.362 14.412 190.23 14.808 190.23 15.328V19H188.55V15.328C188.55 14.808 188.418 14.412 188.154 14.14C187.89 13.86 187.53 13.72 187.074 13.72C186.61 13.72 186.242 13.86 185.97 14.14C185.706 14.412 185.574 14.808 185.574 15.328V19H183.894V12.352H185.574V13.156C185.79 12.876 186.066 12.656 186.402 12.496C186.746 12.336 187.122 12.256 187.53 12.256C188.05 12.256 188.514 12.368 188.922 12.592C189.33 12.808 189.646 13.12 189.87 13.528C190.086 13.144 190.398 12.836 190.806 12.604C191.222 12.372 191.67 12.256 192.15 12.256Z" fill="black"/>
+              <path d="M99.5624 24.5L109 38.122L118.438 24.5H99.5624Z" fill="white" stroke="black"/>
+            <rect x="84" y="22" width="51" height="7" fill="white"/>
+          </svg>
+        </div>
+        <div id="item-title">Selected Items
+          <div onClick={() => {saveOrder();}} id="save-btn">Save Order</div>
+          <div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve Order</div>
+        </div>
+        <div id="item-list">
+          {/* Item divs get added here */}
+          {[...groceryList].map((listItem) =>
+            <GroceryItem
+              key={listItem.id}
+              id={listItem.id}
+              quantity={listItem.quantity}
+              name={listItem.name}
+              price={listItem.price}
+              total={listItem.total}
+              remoneOne={removeOneHandler}
+              delete={deleteHandler}
+            />
+          )}
+        </div>
+        <div onClick={() => {doneRemove();}} id="done-btn">Done</div>
+      </div>
+        <div id="retrieve-screen">
+          <div id="enter-code">
+              <svg id="close-retrieve" onClick={() => {close();}} width="16" height="18" fill="none" xmlns="http://www.w3.org/2000/svg">
+                  <rect x="0.826508" y="16.068" width="20" height="2" transform="rotate(-51.2253 0.826508 16.068)" fill="#161D39"/>
+                  <rect x="2.20688" y="0.594833" width="20" height="2" transform="rotate(50 2.20688 0.594833)" fill="#161D39"/>
+              </svg>
+              <div id="instruct-txt">Enter the code of your past order.</div>
+              <input readOnly type="text" name="output" id="output"></input>
+              <div className="virtual-keyboard">
+                  <div className="row">
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="1"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="2"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="3"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="4"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="5"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="6"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="7"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="8"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="9"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="0"></input>
+                      <input onClick={() => {removeKey();}} type="button" value="delete" className="delete"></input>
+                  </div>
+                  <div className="row">
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="q"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="w"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="e"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="r"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="t"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="y"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="u"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="i"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="o"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="p"></input>
+                  </div>
+                  <div className="row">
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="a"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="s"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="d"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="f"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="g"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="h"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="j"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="k"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="l"></input>
+                  </div>
+                  <div className="row">
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="z"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="x"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="c"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="v"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="b"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="n"></input>
+                      <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="m"></input>
+                  </div>
+                  <div className="row-spacebar">
+                      <input onClick={e => {pressKey(e.target.value);}} className="spacebar" type="button" value=" "></input>
+                  </div>
+                  <div onClick={() => {enterCode();}} id="enter-btn">Enter</div>
+              </div>
+          </div>
+        </div>
+        <div id="code-error">
+          <div id="error-screen">
+              <div id="cancel-txt">The code you entered does not exist. Please try again. </div>
+              <div style={{display:"flex", flexDirection:"row"}}>
+                  <div onClick={() => {closeError();}} className="cancel-opt">Ok</div>
+              </div>
+          </div>
+        </div>
+        <div id="hs-2">
+            <div>
+                <div id="total-title">Total</div>
+				<div id="total-calc">
+					<div id="subtotal-box">Subtotal:<div id="subtotal-amount">${JSON.parse(localStorage.getItem("total")).length > 0 ? JSON.parse(localStorage.getItem("total"))[0] : "0.00"}</div></div>
+					<div id="sales-tax-box">Sales Tax:<div id="sales-tax-amount">${JSON.parse(localStorage.getItem("total")).length > 0 ? JSON.parse(localStorage.getItem("total"))[1]: "0.00"}</div></div>
+					<div id="grand-total-box">Grand Total: <div id="grand-total-amount">${JSON.parse(localStorage.getItem("total")).length > 0 ? JSON.parse(localStorage.getItem("total"))[2]: "0.00"}</div></div>
+				</div>
+            </div>
+			<div id="complete-error">
+				<svg id="pop-up-1" width="235" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect width="235" height="30" rx="8" fill="white"/>
+					<path d="M117.5 36L132.655 22.5H102.345L117.5 36Z" fill="white"/>
+					<path d="M45.9933 13.698C45.9933 14.1087 45.8943 14.4937 45.6963 14.853C45.5056 15.2123 45.2013 15.502 44.7833 15.722C44.3726 15.942 43.8519 16.052 43.2213 16.052H41.9343V19H40.3943V11.322H43.2213C43.8153 11.322 44.3213 11.4247 44.7393 11.63C45.1573 11.8353 45.4689 12.1177 45.6743 12.477C45.8869 12.8363 45.9933 13.2433 45.9933 13.698ZM43.1553 14.809C43.5806 14.809 43.8959 14.7137 44.1013 14.523C44.3066 14.325 44.4093 14.05 44.4093 13.698C44.4093 12.95 43.9913 12.576 43.1553 12.576H41.9343V14.809H43.1553ZM48.6266 10.86V19H47.0866V10.86H48.6266ZM55.8132 15.821C55.8132 16.041 55.7985 16.239 55.7692 16.415H51.3142C51.3508 16.855 51.5048 17.1997 51.7762 17.449C52.0475 17.6983 52.3812 17.823 52.7772 17.823C53.3492 17.823 53.7562 17.5773 53.9982 17.086H55.6592C55.4832 17.6727 55.1458 18.1567 54.6472 18.538C54.1485 18.912 53.5362 19.099 52.8102 19.099C52.2235 19.099 51.6955 18.9707 51.2262 18.714C50.7642 18.45 50.4012 18.0797 50.1372 17.603C49.8805 17.1263 49.7522 16.5763 49.7522 15.953C49.7522 15.3223 49.8805 14.7687 50.1372 14.292C50.3938 13.8153 50.7532 13.4487 51.2152 13.192C51.6772 12.9353 52.2088 12.807 52.8102 12.807C53.3895 12.807 53.9065 12.9317 54.3612 13.181C54.8232 13.4303 55.1788 13.786 55.4282 14.248C55.6848 14.7027 55.8132 15.227 55.8132 15.821ZM54.2182 15.381C54.2108 14.985 54.0678 14.6697 53.7892 14.435C53.5105 14.193 53.1695 14.072 52.7662 14.072C52.3848 14.072 52.0622 14.1893 51.7982 14.424C51.5415 14.6513 51.3838 14.9703 51.3252 15.381H54.2182ZM56.5412 15.931C56.5412 15.315 56.6622 14.7687 56.9042 14.292C57.1536 13.8153 57.4872 13.4487 57.9052 13.192C58.3306 12.9353 58.8036 12.807 59.3242 12.807C59.7789 12.807 60.1749 12.8987 60.5122 13.082C60.8569 13.2653 61.1319 13.4963 61.3372 13.775V12.906H62.8882V19H61.3372V18.109C61.1392 18.395 60.8642 18.6333 60.5122 18.824C60.1676 19.0073 59.7679 19.099 59.3132 19.099C58.7999 19.099 58.3306 18.967 57.9052 18.703C57.4872 18.439 57.1536 18.0687 56.9042 17.592C56.6622 17.108 56.5412 16.5543 56.5412 15.931ZM61.3372 15.953C61.3372 15.579 61.2639 15.26 61.1172 14.996C60.9706 14.7247 60.7726 14.5193 60.5232 14.38C60.2739 14.2333 60.0062 14.16 59.7202 14.16C59.4342 14.16 59.1702 14.2297 58.9282 14.369C58.6862 14.5083 58.4882 14.7137 58.3342 14.985C58.1876 15.249 58.1142 15.5643 58.1142 15.931C58.1142 16.2977 58.1876 16.6203 58.3342 16.899C58.4882 17.1703 58.6862 17.3793 58.9282 17.526C59.1776 17.6727 59.4416 17.746 59.7202 17.746C60.0062 17.746 60.2739 17.6763 60.5232 17.537C60.7726 17.3903 60.9706 17.185 61.1172 16.921C61.2639 16.6497 61.3372 16.327 61.3372 15.953ZM66.7243 19.099C66.2256 19.099 65.7783 19.011 65.3823 18.835C64.9863 18.6517 64.671 18.406 64.4363 18.098C64.209 17.79 64.0843 17.449 64.0623 17.075H65.6133C65.6426 17.3097 65.7563 17.504 65.9543 17.658C66.1596 17.812 66.4126 17.889 66.7133 17.889C67.0066 17.889 67.234 17.8303 67.3953 17.713C67.564 17.5957 67.6483 17.4453 67.6483 17.262C67.6483 17.064 67.5456 16.9173 67.3403 16.822C67.1423 16.7193 66.8233 16.6093 66.3833 16.492C65.9286 16.382 65.5546 16.2683 65.2613 16.151C64.9753 16.0337 64.726 15.854 64.5133 15.612C64.308 15.37 64.2053 15.0437 64.2053 14.633C64.2053 14.2957 64.3006 13.9877 64.4913 13.709C64.6893 13.4303 64.968 13.2103 65.3273 13.049C65.694 12.8877 66.123 12.807 66.6143 12.807C67.3403 12.807 67.9196 12.9903 68.3523 13.357C68.785 13.7163 69.0233 14.204 69.0673 14.82H67.5933C67.5713 14.578 67.4686 14.3873 67.2853 14.248C67.1093 14.1013 66.871 14.028 66.5703 14.028C66.2916 14.028 66.0753 14.0793 65.9213 14.182C65.7746 14.2847 65.7013 14.4277 65.7013 14.611C65.7013 14.8163 65.804 14.974 66.0093 15.084C66.2146 15.1867 66.5336 15.293 66.9663 15.403C67.4063 15.513 67.7693 15.6267 68.0553 15.744C68.3413 15.8613 68.587 16.0447 68.7923 16.294C69.005 16.536 69.115 16.8587 69.1223 17.262C69.1223 17.614 69.0233 17.9293 68.8253 18.208C68.6346 18.4867 68.356 18.7067 67.9893 18.868C67.63 19.022 67.2083 19.099 66.7243 19.099ZM72.1794 14.171V17.119C72.1794 17.3243 72.2271 17.4747 72.3224 17.57C72.4251 17.658 72.5938 17.702 72.8284 17.702H73.5434V19H72.5754C71.2774 19 70.6284 18.3693 70.6284 17.108V14.171H69.9024V12.906H70.6284V11.399H72.1794V12.906H73.5434V14.171H72.1794ZM76.8762 15.931C76.8762 15.315 76.9972 14.7687 77.2392 14.292C77.4885 13.8153 77.8222 13.4487 78.2402 13.192C78.6655 12.9353 79.1385 12.807 79.6592 12.807C80.1139 12.807 80.5099 12.8987 80.8472 13.082C81.1919 13.2653 81.4669 13.4963 81.6722 13.775V12.906H83.2232V19H81.6722V18.109C81.4742 18.395 81.1992 18.6333 80.8472 18.824C80.5025 19.0073 80.1029 19.099 79.6482 19.099C79.1349 19.099 78.6655 18.967 78.2402 18.703C77.8222 18.439 77.4885 18.0687 77.2392 17.592C76.9972 17.108 76.8762 16.5543 76.8762 15.931ZM81.6722 15.953C81.6722 15.579 81.5989 15.26 81.4522 14.996C81.3055 14.7247 81.1075 14.5193 80.8582 14.38C80.6089 14.2333 80.3412 14.16 80.0552 14.16C79.7692 14.16 79.5052 14.2297 79.2632 14.369C79.0212 14.5083 78.8232 14.7137 78.6692 14.985C78.5225 15.249 78.4492 15.5643 78.4492 15.931C78.4492 16.2977 78.5225 16.6203 78.6692 16.899C78.8232 17.1703 79.0212 17.3793 79.2632 17.526C79.5125 17.6727 79.7765 17.746 80.0552 17.746C80.3412 17.746 80.6089 17.6763 80.8582 17.537C81.1075 17.3903 81.3055 17.185 81.4522 16.921C81.5989 16.6497 81.6722 16.327 81.6722 15.953ZM84.3313 15.931C84.3313 15.315 84.4523 14.7687 84.6943 14.292C84.9436 13.8153 85.2809 13.4487 85.7063 13.192C86.1316 12.9353 86.6046 12.807 87.1253 12.807C87.5213 12.807 87.8989 12.895 88.2583 13.071C88.6176 13.2397 88.9036 13.467 89.1163 13.753V10.86H90.6783V19H89.1163V18.098C88.9256 18.3987 88.6579 18.6407 88.3133 18.824C87.9686 19.0073 87.5689 19.099 87.1143 19.099C86.6009 19.099 86.1316 18.967 85.7063 18.703C85.2809 18.439 84.9436 18.0687 84.6943 17.592C84.4523 17.108 84.3313 16.5543 84.3313 15.931ZM89.1273 15.953C89.1273 15.579 89.0539 15.26 88.9073 14.996C88.7606 14.7247 88.5626 14.5193 88.3133 14.38C88.0639 14.2333 87.7963 14.16 87.5103 14.16C87.2243 14.16 86.9603 14.2297 86.7183 14.369C86.4763 14.5083 86.2783 14.7137 86.1243 14.985C85.9776 15.249 85.9043 15.5643 85.9043 15.931C85.9043 16.2977 85.9776 16.6203 86.1243 16.899C86.2783 17.1703 86.4763 17.3793 86.7183 17.526C86.9676 17.6727 87.2316 17.746 87.5103 17.746C87.7963 17.746 88.0639 17.6763 88.3133 17.537C88.5626 17.3903 88.7606 17.185 88.9073 16.921C89.0539 16.6497 89.1273 16.327 89.1273 15.953ZM91.7863 15.931C91.7863 15.315 91.9073 14.7687 92.1493 14.292C92.3987 13.8153 92.736 13.4487 93.1613 13.192C93.5867 12.9353 94.0597 12.807 94.5803 12.807C94.9763 12.807 95.354 12.895 95.7133 13.071C96.0727 13.2397 96.3587 13.467 96.5713 13.753V10.86H98.1333V19H96.5713V18.098C96.3807 18.3987 96.113 18.6407 95.7683 18.824C95.4237 19.0073 95.024 19.099 94.5693 19.099C94.056 19.099 93.5867 18.967 93.1613 18.703C92.736 18.439 92.3987 18.0687 92.1493 17.592C91.9073 17.108 91.7863 16.5543 91.7863 15.931ZM96.5823 15.953C96.5823 15.579 96.509 15.26 96.3623 14.996C96.2157 14.7247 96.0177 14.5193 95.7683 14.38C95.519 14.2333 95.2513 14.16 94.9653 14.16C94.6793 14.16 94.4153 14.2297 94.1733 14.369C93.9313 14.5083 93.7333 14.7137 93.5793 14.985C93.4327 15.249 93.3593 15.5643 93.3593 15.931C93.3593 16.2977 93.4327 16.6203 93.5793 16.899C93.7333 17.1703 93.9313 17.3793 94.1733 17.526C94.4227 17.6727 94.6867 17.746 94.9653 17.746C95.2513 17.746 95.519 17.6763 95.7683 17.537C96.0177 17.3903 96.2157 17.185 96.3623 16.921C96.509 16.6497 96.5823 16.327 96.5823 15.953ZM101.863 15.931C101.863 15.315 101.984 14.7687 102.226 14.292C102.475 13.8153 102.809 13.4487 103.227 13.192C103.652 12.9353 104.125 12.807 104.646 12.807C105.1 12.807 105.496 12.8987 105.834 13.082C106.178 13.2653 106.453 13.4963 106.659 13.775V12.906H108.21V19H106.659V18.109C106.461 18.395 106.186 18.6333 105.834 18.824C105.489 19.0073 105.089 19.099 104.635 19.099C104.121 19.099 103.652 18.967 103.227 18.703C102.809 18.439 102.475 18.0687 102.226 17.592C101.984 17.108 101.863 16.5543 101.863 15.931ZM106.659 15.953C106.659 15.579 106.585 15.26 106.439 14.996C106.292 14.7247 106.094 14.5193 105.845 14.38C105.595 14.2333 105.328 14.16 105.042 14.16C104.756 14.16 104.492 14.2297 104.25 14.369C104.008 14.5083 103.81 14.7137 103.656 14.985C103.509 15.249 103.436 15.5643 103.436 15.931C103.436 16.2977 103.509 16.6203 103.656 16.899C103.81 17.1703 104.008 17.3793 104.25 17.526C104.499 17.6727 104.763 17.746 105.042 17.746C105.328 17.746 105.595 17.6763 105.845 17.537C106.094 17.3903 106.292 17.185 106.439 16.921C106.585 16.6497 106.659 16.327 106.659 15.953ZM111.507 14.171V17.119C111.507 17.3243 111.554 17.4747 111.65 17.57C111.752 17.658 111.921 17.702 112.156 17.702H112.871V19H111.903C110.605 19 109.956 18.3693 109.956 17.108V14.171H109.23V12.906H109.956V11.399H111.507V12.906H112.871V14.171H111.507ZM118.139 10.86V19H116.599V10.86H118.139ZM125.326 15.821C125.326 16.041 125.311 16.239 125.282 16.415H120.827C120.864 16.855 121.018 17.1997 121.289 17.449C121.56 17.6983 121.894 17.823 122.29 17.823C122.862 17.823 123.269 17.5773 123.511 17.086H125.172C124.996 17.6727 124.659 18.1567 124.16 18.538C123.661 18.912 123.049 19.099 122.323 19.099C121.736 19.099 121.208 18.9707 120.739 18.714C120.277 18.45 119.914 18.0797 119.65 17.603C119.393 17.1263 119.265 16.5763 119.265 15.953C119.265 15.3223 119.393 14.7687 119.65 14.292C119.907 13.8153 120.266 13.4487 120.728 13.192C121.19 12.9353 121.722 12.807 122.323 12.807C122.902 12.807 123.419 12.9317 123.874 13.181C124.336 13.4303 124.692 13.786 124.941 14.248C125.198 14.7027 125.326 15.227 125.326 15.821ZM123.731 15.381C123.724 14.985 123.581 14.6697 123.302 14.435C123.023 14.193 122.682 14.072 122.279 14.072C121.898 14.072 121.575 14.1893 121.311 14.424C121.054 14.6513 120.897 14.9703 120.838 15.381H123.731ZM126.054 15.931C126.054 15.315 126.175 14.7687 126.417 14.292C126.666 13.8153 127 13.4487 127.418 13.192C127.843 12.9353 128.316 12.807 128.837 12.807C129.292 12.807 129.688 12.8987 130.025 13.082C130.37 13.2653 130.645 13.4963 130.85 13.775V12.906H132.401V19H130.85V18.109C130.652 18.395 130.377 18.6333 130.025 18.824C129.68 19.0073 129.281 19.099 128.826 19.099C128.313 19.099 127.843 18.967 127.418 18.703C127 18.439 126.666 18.0687 126.417 17.592C126.175 17.108 126.054 16.5543 126.054 15.931ZM130.85 15.953C130.85 15.579 130.777 15.26 130.63 14.996C130.483 14.7247 130.285 14.5193 130.036 14.38C129.787 14.2333 129.519 14.16 129.233 14.16C128.947 14.16 128.683 14.2297 128.441 14.369C128.199 14.5083 128.001 14.7137 127.847 14.985C127.7 15.249 127.627 15.5643 127.627 15.931C127.627 16.2977 127.7 16.6203 127.847 16.899C128.001 17.1703 128.199 17.3793 128.441 17.526C128.69 17.6727 128.954 17.746 129.233 17.746C129.519 17.746 129.787 17.6763 130.036 17.537C130.285 17.3903 130.483 17.185 130.63 16.921C130.777 16.6497 130.85 16.327 130.85 15.953ZM136.237 19.099C135.738 19.099 135.291 19.011 134.895 18.835C134.499 18.6517 134.184 18.406 133.949 18.098C133.722 17.79 133.597 17.449 133.575 17.075H135.126C135.155 17.3097 135.269 17.504 135.467 17.658C135.672 17.812 135.925 17.889 136.226 17.889C136.519 17.889 136.747 17.8303 136.908 17.713C137.077 17.5957 137.161 17.4453 137.161 17.262C137.161 17.064 137.058 16.9173 136.853 16.822C136.655 16.7193 136.336 16.6093 135.896 16.492C135.441 16.382 135.067 16.2683 134.774 16.151C134.488 16.0337 134.239 15.854 134.026 15.612C133.821 15.37 133.718 15.0437 133.718 14.633C133.718 14.2957 133.813 13.9877 134.004 13.709C134.202 13.4303 134.481 13.2103 134.84 13.049C135.207 12.8877 135.636 12.807 136.127 12.807C136.853 12.807 137.432 12.9903 137.865 13.357C138.298 13.7163 138.536 14.204 138.58 14.82H137.106C137.084 14.578 136.981 14.3873 136.798 14.248C136.622 14.1013 136.384 14.028 136.083 14.028C135.804 14.028 135.588 14.0793 135.434 14.182C135.287 14.2847 135.214 14.4277 135.214 14.611C135.214 14.8163 135.317 14.974 135.522 15.084C135.727 15.1867 136.046 15.293 136.479 15.403C136.919 15.513 137.282 15.6267 137.568 15.744C137.854 15.8613 138.1 16.0447 138.305 16.294C138.518 16.536 138.628 16.8587 138.635 17.262C138.635 17.614 138.536 17.9293 138.338 18.208C138.147 18.4867 137.869 18.7067 137.502 18.868C137.143 19.022 136.721 19.099 136.237 19.099ZM141.692 14.171V17.119C141.692 17.3243 141.74 17.4747 141.835 17.57C141.938 17.658 142.106 17.702 142.341 17.702H143.056V19H142.088C140.79 19 140.141 18.3693 140.141 17.108V14.171H139.415V12.906H140.141V11.399H141.692V12.906H143.056V14.171H141.692ZM149.491 19.099C148.904 19.099 148.376 18.9707 147.907 18.714C147.438 18.45 147.067 18.0797 146.796 17.603C146.532 17.1263 146.4 16.5763 146.4 15.953C146.4 15.3297 146.536 14.7797 146.807 14.303C147.086 13.8263 147.463 13.4597 147.94 13.203C148.417 12.939 148.948 12.807 149.535 12.807C150.122 12.807 150.653 12.939 151.13 13.203C151.607 13.4597 151.981 13.8263 152.252 14.303C152.531 14.7797 152.67 15.3297 152.67 15.953C152.67 16.5763 152.527 17.1263 152.241 17.603C151.962 18.0797 151.581 18.45 151.097 18.714C150.62 18.9707 150.085 19.099 149.491 19.099ZM149.491 17.757C149.77 17.757 150.03 17.691 150.272 17.559C150.521 17.4197 150.719 17.2143 150.866 16.943C151.013 16.6717 151.086 16.3417 151.086 15.953C151.086 15.3737 150.932 14.93 150.624 14.622C150.323 14.3067 149.953 14.149 149.513 14.149C149.073 14.149 148.703 14.3067 148.402 14.622C148.109 14.93 147.962 15.3737 147.962 15.953C147.962 16.5323 148.105 16.9797 148.391 17.295C148.684 17.603 149.051 17.757 149.491 17.757ZM157.177 12.818C157.903 12.818 158.489 13.049 158.937 13.511C159.384 13.9657 159.608 14.6037 159.608 15.425V19H158.068V15.634C158.068 15.15 157.947 14.7797 157.705 14.523C157.463 14.259 157.133 14.127 156.715 14.127C156.289 14.127 155.952 14.259 155.703 14.523C155.461 14.7797 155.34 15.15 155.34 15.634V19H153.8V12.906H155.34V13.665C155.545 13.401 155.805 13.1957 156.121 13.049C156.443 12.895 156.795 12.818 157.177 12.818ZM166.737 15.821C166.737 16.041 166.722 16.239 166.693 16.415H162.238C162.275 16.855 162.429 17.1997 162.7 17.449C162.971 17.6983 163.305 17.823 163.701 17.823C164.273 17.823 164.68 17.5773 164.922 17.086H166.583C166.407 17.6727 166.07 18.1567 165.571 18.538C165.072 18.912 164.46 19.099 163.734 19.099C163.147 19.099 162.619 18.9707 162.15 18.714C161.688 18.45 161.325 18.0797 161.061 17.603C160.804 17.1263 160.676 16.5763 160.676 15.953C160.676 15.3223 160.804 14.7687 161.061 14.292C161.318 13.8153 161.677 13.4487 162.139 13.192C162.601 12.9353 163.133 12.807 163.734 12.807C164.313 12.807 164.83 12.9317 165.285 13.181C165.747 13.4303 166.103 13.786 166.352 14.248C166.609 14.7027 166.737 15.227 166.737 15.821ZM165.142 15.381C165.135 14.985 164.992 14.6697 164.713 14.435C164.434 14.193 164.093 14.072 163.69 14.072C163.309 14.072 162.986 14.1893 162.722 14.424C162.465 14.6513 162.308 14.9703 162.249 15.381H165.142ZM171.263 12.18C170.992 12.18 170.764 12.0957 170.581 11.927C170.405 11.751 170.317 11.5347 170.317 11.278C170.317 11.0213 170.405 10.8087 170.581 10.64C170.764 10.464 170.992 10.376 171.263 10.376C171.534 10.376 171.758 10.464 171.934 10.64C172.117 10.8087 172.209 11.0213 172.209 11.278C172.209 11.5347 172.117 11.751 171.934 11.927C171.758 12.0957 171.534 12.18 171.263 12.18ZM172.022 12.906V19H170.482V12.906H172.022ZM175.337 14.171V17.119C175.337 17.3243 175.384 17.4747 175.48 17.57C175.582 17.658 175.751 17.702 175.986 17.702H176.701V19H175.733C174.435 19 173.786 18.3693 173.786 17.108V14.171H173.06V12.906H173.786V11.399H175.337V12.906H176.701V14.171H175.337ZM183.473 15.821C183.473 16.041 183.459 16.239 183.429 16.415H178.974C179.011 16.855 179.165 17.1997 179.436 17.449C179.708 17.6983 180.041 17.823 180.437 17.823C181.009 17.823 181.416 17.5773 181.658 17.086H183.319C183.143 17.6727 182.806 18.1567 182.307 18.538C181.809 18.912 181.196 19.099 180.47 19.099C179.884 19.099 179.356 18.9707 178.886 18.714C178.424 18.45 178.061 18.0797 177.797 17.603C177.541 17.1263 177.412 16.5763 177.412 15.953C177.412 15.3223 177.541 14.7687 177.797 14.292C178.054 13.8153 178.413 13.4487 178.875 13.192C179.337 12.9353 179.869 12.807 180.47 12.807C181.05 12.807 181.567 12.9317 182.021 13.181C182.483 13.4303 182.839 13.786 183.088 14.248C183.345 14.7027 183.473 15.227 183.473 15.821ZM181.878 15.381C181.871 14.985 181.728 14.6697 181.449 14.435C181.171 14.193 180.83 14.072 180.426 14.072C180.045 14.072 179.722 14.1893 179.458 14.424C179.202 14.6513 179.044 14.9703 178.985 15.381H181.878ZM192.165 12.818C192.913 12.818 193.515 13.049 193.969 13.511C194.431 13.9657 194.662 14.6037 194.662 15.425V19H193.122V15.634C193.122 15.1573 193.001 14.7943 192.759 14.545C192.517 14.2883 192.187 14.16 191.769 14.16C191.351 14.16 191.018 14.2883 190.768 14.545C190.526 14.7943 190.405 15.1573 190.405 15.634V19H188.865V15.634C188.865 15.1573 188.744 14.7943 188.502 14.545C188.26 14.2883 187.93 14.16 187.512 14.16C187.087 14.16 186.75 14.2883 186.5 14.545C186.258 14.7943 186.137 15.1573 186.137 15.634V19H184.597V12.906H186.137V13.643C186.335 13.3863 186.588 13.1847 186.896 13.038C187.212 12.8913 187.556 12.818 187.93 12.818C188.407 12.818 188.832 12.9207 189.206 13.126C189.58 13.324 189.87 13.61 190.075 13.984C190.273 13.632 190.559 13.3497 190.933 13.137C191.315 12.9243 191.725 12.818 192.165 12.818Z" fill="black"/>
+				</svg>
+			</div>
+            <div onClick={() => {finishScreen();}} className="btn-design" id="finish-btn">Complete Order</div>
+            <div onClick={() => {lookUpScreen();}} className="btn-design" id="look-up-btn">Look Up Item</div>
+            <div style={{display: "flex", flexDirection: "row"}}>
+                <div onClick={() => removeItems()} className="btn-design" id="remove-btn">Remove Item(s)</div>
+                <div onClick={() => {cancelScreen();}} className="btn-design" id="cancel-btn">Cancel Process</div>
+            </div>
+			<div id="remove-error">
+				<svg id="pop-up-2" width="219" height="36" fill="none" xmlns="http://www.w3.org/2000/svg">
+					<rect x="18" y="6" width="190" height="30" rx="8" fill="white"/>
+					<path d="M50.5 0L65.6554 12.75H35.3446L50.5 0Z" fill="white"/>
+					<path d="M33.5856 17.322V18.565H31.5396V25H29.9996V18.565H27.9536V17.322H33.5856ZM38.1412 18.818C38.6032 18.818 39.0139 18.9207 39.3732 19.126C39.7325 19.324 40.0112 19.621 40.2092 20.017C40.4145 20.4057 40.5172 20.875 40.5172 21.425V25H38.9772V21.634C38.9772 21.15 38.8562 20.7797 38.6142 20.523C38.3722 20.259 38.0422 20.127 37.6242 20.127C37.1989 20.127 36.8615 20.259 36.6122 20.523C36.3702 20.7797 36.2492 21.15 36.2492 21.634V25H34.7092V16.86H36.2492V19.665C36.4472 19.401 36.7112 19.1957 37.0412 19.049C37.3712 18.895 37.7379 18.818 38.1412 18.818ZM47.6467 21.821C47.6467 22.041 47.632 22.239 47.6027 22.415H43.1477C43.1843 22.855 43.3383 23.1997 43.6097 23.449C43.881 23.6983 44.2147 23.823 44.6107 23.823C45.1827 23.823 45.5897 23.5773 45.8317 23.086H47.4927C47.3167 23.6727 46.9793 24.1567 46.4807 24.538C45.982 24.912 45.3697 25.099 44.6437 25.099C44.057 25.099 43.529 24.9707 43.0597 24.714C42.5977 24.45 42.2347 24.0797 41.9707 23.603C41.714 23.1263 41.5857 22.5763 41.5857 21.953C41.5857 21.3223 41.714 20.7687 41.9707 20.292C42.2273 19.8153 42.5867 19.4487 43.0487 19.192C43.5107 18.9353 44.0423 18.807 44.6437 18.807C45.223 18.807 45.74 18.9317 46.1947 19.181C46.6567 19.4303 47.0123 19.786 47.2617 20.248C47.5183 20.7027 47.6467 21.227 47.6467 21.821ZM46.0517 21.381C46.0443 20.985 45.9013 20.6697 45.6227 20.435C45.344 20.193 45.003 20.072 44.5997 20.072C44.2183 20.072 43.8957 20.1893 43.6317 20.424C43.375 20.6513 43.2173 20.9703 43.1587 21.381H46.0517ZM50.3107 19.852C50.5087 19.5293 50.7654 19.2763 51.0807 19.093C51.4034 18.9097 51.7701 18.818 52.1807 18.818V20.435H51.7737C51.2897 20.435 50.9231 20.5487 50.6737 20.776C50.4317 21.0033 50.3107 21.3993 50.3107 21.964V25H48.7707V18.906H50.3107V19.852ZM58.883 21.821C58.883 22.041 58.8683 22.239 58.839 22.415H54.384C54.4207 22.855 54.5747 23.1997 54.846 23.449C55.1173 23.6983 55.451 23.823 55.847 23.823C56.419 23.823 56.826 23.5773 57.068 23.086H58.729C58.553 23.6727 58.2157 24.1567 57.717 24.538C57.2183 24.912 56.606 25.099 55.88 25.099C55.2933 25.099 54.7653 24.9707 54.296 24.714C53.834 24.45 53.471 24.0797 53.207 23.603C52.9503 23.1263 52.822 22.5763 52.822 21.953C52.822 21.3223 52.9503 20.7687 53.207 20.292C53.4637 19.8153 53.823 19.4487 54.285 19.192C54.747 18.9353 55.2787 18.807 55.88 18.807C56.4593 18.807 56.9763 18.9317 57.431 19.181C57.893 19.4303 58.2487 19.786 58.498 20.248C58.7547 20.7027 58.883 21.227 58.883 21.821ZM57.288 21.381C57.2807 20.985 57.1377 20.6697 56.859 20.435C56.5803 20.193 56.2393 20.072 55.836 20.072C55.4547 20.072 55.132 20.1893 54.868 20.424C54.6113 20.6513 54.4537 20.9703 54.395 21.381H57.288ZM62.2321 21.931C62.2321 21.315 62.3531 20.7687 62.5951 20.292C62.8445 19.8153 63.1781 19.4487 63.5961 19.192C64.0215 18.9353 64.4945 18.807 65.0151 18.807C65.4698 18.807 65.8658 18.8987 66.2031 19.082C66.5478 19.2653 66.8228 19.4963 67.0281 19.775V18.906H68.5791V25H67.0281V24.109C66.8301 24.395 66.5551 24.6333 66.2031 24.824C65.8585 25.0073 65.4588 25.099 65.0041 25.099C64.4908 25.099 64.0215 24.967 63.5961 24.703C63.1781 24.439 62.8445 24.0687 62.5951 23.592C62.3531 23.108 62.2321 22.5543 62.2321 21.931ZM67.0281 21.953C67.0281 21.579 66.9548 21.26 66.8081 20.996C66.6615 20.7247 66.4635 20.5193 66.2141 20.38C65.9648 20.2333 65.6971 20.16 65.4111 20.16C65.1251 20.16 64.8611 20.2297 64.6191 20.369C64.3771 20.5083 64.1791 20.7137 64.0251 20.985C63.8785 21.249 63.8051 21.5643 63.8051 21.931C63.8051 22.2977 63.8785 22.6203 64.0251 22.899C64.1791 23.1703 64.3771 23.3793 64.6191 23.526C64.8685 23.6727 65.1325 23.746 65.4111 23.746C65.6971 23.746 65.9648 23.6763 66.2141 23.537C66.4635 23.3903 66.6615 23.185 66.8081 22.921C66.9548 22.6497 67.0281 22.327 67.0281 21.953ZM71.6232 19.852C71.8212 19.5293 72.0779 19.2763 72.3932 19.093C72.7159 18.9097 73.0826 18.818 73.4932 18.818V20.435H73.0862C72.6022 20.435 72.2356 20.5487 71.9862 20.776C71.7442 21.0033 71.6232 21.3993 71.6232 21.964V25H70.0832V18.906H71.6232V19.852ZM80.1955 21.821C80.1955 22.041 80.1808 22.239 80.1515 22.415H75.6965C75.7332 22.855 75.8872 23.1997 76.1585 23.449C76.4298 23.6983 76.7635 23.823 77.1595 23.823C77.7315 23.823 78.1385 23.5773 78.3805 23.086H80.0415C79.8655 23.6727 79.5282 24.1567 79.0295 24.538C78.5308 24.912 77.9185 25.099 77.1925 25.099C76.6058 25.099 76.0778 24.9707 75.6085 24.714C75.1465 24.45 74.7835 24.0797 74.5195 23.603C74.2628 23.1263 74.1345 22.5763 74.1345 21.953C74.1345 21.3223 74.2628 20.7687 74.5195 20.292C74.7762 19.8153 75.1355 19.4487 75.5975 19.192C76.0595 18.9353 76.5912 18.807 77.1925 18.807C77.7718 18.807 78.2888 18.9317 78.7435 19.181C79.2055 19.4303 79.5612 19.786 79.8105 20.248C80.0672 20.7027 80.1955 21.227 80.1955 21.821ZM78.6005 21.381C78.5932 20.985 78.4502 20.6697 78.1715 20.435C77.8928 20.193 77.5518 20.072 77.1485 20.072C76.7672 20.072 76.4445 20.1893 76.1805 20.424C75.9238 20.6513 75.7662 20.9703 75.7075 21.381H78.6005ZM87.3176 18.818C88.0436 18.818 88.6303 19.049 89.0776 19.511C89.525 19.9657 89.7486 20.6037 89.7486 21.425V25H88.2086V21.634C88.2086 21.15 88.0876 20.7797 87.8456 20.523C87.6036 20.259 87.2736 20.127 86.8556 20.127C86.4303 20.127 86.093 20.259 85.8436 20.523C85.6016 20.7797 85.4806 21.15 85.4806 21.634V25H83.9406V18.906H85.4806V19.665C85.686 19.401 85.9463 19.1957 86.2616 19.049C86.5843 18.895 86.9363 18.818 87.3176 18.818ZM93.9191 25.099C93.3324 25.099 92.8044 24.9707 92.3351 24.714C91.8658 24.45 91.4954 24.0797 91.2241 23.603C90.9601 23.1263 90.8281 22.5763 90.8281 21.953C90.8281 21.3297 90.9638 20.7797 91.2351 20.303C91.5138 19.8263 91.8914 19.4597 92.3681 19.203C92.8448 18.939 93.3764 18.807 93.9631 18.807C94.5498 18.807 95.0814 18.939 95.5581 19.203C96.0348 19.4597 96.4088 19.8263 96.6801 20.303C96.9588 20.7797 97.0981 21.3297 97.0981 21.953C97.0981 22.5763 96.9551 23.1263 96.6691 23.603C96.3904 24.0797 96.0091 24.45 95.5251 24.714C95.0484 24.9707 94.5131 25.099 93.9191 25.099ZM93.9191 23.757C94.1978 23.757 94.4581 23.691 94.7001 23.559C94.9494 23.4197 95.1474 23.2143 95.2941 22.943C95.4408 22.6717 95.5141 22.3417 95.5141 21.953C95.5141 21.3737 95.3601 20.93 95.0521 20.622C94.7514 20.3067 94.3811 20.149 93.9411 20.149C93.5011 20.149 93.1308 20.3067 92.8301 20.622C92.5368 20.93 92.3901 21.3737 92.3901 21.953C92.3901 22.5323 92.5331 22.9797 92.8191 23.295C93.1124 23.603 93.4791 23.757 93.9191 23.757ZM101.63 18.18C101.359 18.18 101.131 18.0957 100.948 17.927C100.772 17.751 100.684 17.5347 100.684 17.278C100.684 17.0213 100.772 16.8087 100.948 16.64C101.131 16.464 101.359 16.376 101.63 16.376C101.901 16.376 102.125 16.464 102.301 16.64C102.484 16.8087 102.576 17.0213 102.576 17.278C102.576 17.5347 102.484 17.751 102.301 17.927C102.125 18.0957 101.901 18.18 101.63 18.18ZM102.389 18.906V25H100.849V18.906H102.389ZM105.703 20.171V23.119C105.703 23.3243 105.751 23.4747 105.846 23.57C105.949 23.658 106.118 23.702 106.352 23.702H107.067V25H106.099C104.801 25 104.152 24.3693 104.152 23.108V20.171H103.426V18.906H104.152V17.399H105.703V18.906H107.067V20.171H105.703ZM113.84 21.821C113.84 22.041 113.825 22.239 113.796 22.415H109.341C109.378 22.855 109.532 23.1997 109.803 23.449C110.074 23.6983 110.408 23.823 110.804 23.823C111.376 23.823 111.783 23.5773 112.025 23.086H113.686C113.51 23.6727 113.173 24.1567 112.674 24.538C112.175 24.912 111.563 25.099 110.837 25.099C110.25 25.099 109.722 24.9707 109.253 24.714C108.791 24.45 108.428 24.0797 108.164 23.603C107.907 23.1263 107.779 22.5763 107.779 21.953C107.779 21.3223 107.907 20.7687 108.164 20.292C108.421 19.8153 108.78 19.4487 109.242 19.192C109.704 18.9353 110.236 18.807 110.837 18.807C111.416 18.807 111.933 18.9317 112.388 19.181C112.85 19.4303 113.206 19.786 113.455 20.248C113.712 20.7027 113.84 21.227 113.84 21.821ZM112.245 21.381C112.238 20.985 112.095 20.6697 111.816 20.435C111.537 20.193 111.196 20.072 110.793 20.072C110.412 20.072 110.089 20.1893 109.825 20.424C109.568 20.6513 109.411 20.9703 109.352 21.381H112.245ZM122.532 18.818C123.28 18.818 123.881 19.049 124.336 19.511C124.798 19.9657 125.029 20.6037 125.029 21.425V25H123.489V21.634C123.489 21.1573 123.368 20.7943 123.126 20.545C122.884 20.2883 122.554 20.16 122.136 20.16C121.718 20.16 121.384 20.2883 121.135 20.545C120.893 20.7943 120.772 21.1573 120.772 21.634V25H119.232V21.634C119.232 21.1573 119.111 20.7943 118.869 20.545C118.627 20.2883 118.297 20.16 117.879 20.16C117.454 20.16 117.116 20.2883 116.867 20.545C116.625 20.7943 116.504 21.1573 116.504 21.634V25H114.964V18.906H116.504V19.643C116.702 19.3863 116.955 19.1847 117.263 19.038C117.578 18.8913 117.923 18.818 118.297 18.818C118.774 18.818 119.199 18.9207 119.573 19.126C119.947 19.324 120.237 19.61 120.442 19.984C120.64 19.632 120.926 19.3497 121.3 19.137C121.681 18.9243 122.092 18.818 122.532 18.818ZM128.822 25.099C128.324 25.099 127.876 25.011 127.48 24.835C127.084 24.6517 126.769 24.406 126.534 24.098C126.307 23.79 126.182 23.449 126.16 23.075H127.711C127.741 23.3097 127.854 23.504 128.052 23.658C128.258 23.812 128.511 23.889 128.811 23.889C129.105 23.889 129.332 23.8303 129.493 23.713C129.662 23.5957 129.746 23.4453 129.746 23.262C129.746 23.064 129.644 22.9173 129.438 22.822C129.24 22.7193 128.921 22.6093 128.481 22.492C128.027 22.382 127.653 22.2683 127.359 22.151C127.073 22.0337 126.824 21.854 126.611 21.612C126.406 21.37 126.303 21.0437 126.303 20.633C126.303 20.2957 126.399 19.9877 126.589 19.709C126.787 19.4303 127.066 19.2103 127.425 19.049C127.792 18.8877 128.221 18.807 128.712 18.807C129.438 18.807 130.018 18.9903 130.45 19.357C130.883 19.7163 131.121 20.204 131.165 20.82H129.691C129.669 20.578 129.567 20.3873 129.383 20.248C129.207 20.1013 128.969 20.028 128.668 20.028C128.39 20.028 128.173 20.0793 128.019 20.182C127.873 20.2847 127.799 20.4277 127.799 20.611C127.799 20.8163 127.902 20.974 128.107 21.084C128.313 21.1867 128.632 21.293 129.064 21.403C129.504 21.513 129.867 21.6267 130.153 21.744C130.439 21.8613 130.685 22.0447 130.89 22.294C131.103 22.536 131.213 22.8587 131.22 23.262C131.22 23.614 131.121 23.9293 130.923 24.208C130.733 24.4867 130.454 24.7067 130.087 24.868C129.728 25.022 129.306 25.099 128.822 25.099ZM136.899 20.171V23.119C136.899 23.3243 136.946 23.4747 137.042 23.57C137.144 23.658 137.313 23.702 137.548 23.702H138.263V25H137.295C135.997 25 135.348 24.3693 135.348 23.108V20.171H134.622V18.906H135.348V17.399H136.899V18.906H138.263V20.171H136.899ZM142.076 25.099C141.49 25.099 140.962 24.9707 140.492 24.714C140.023 24.45 139.653 24.0797 139.381 23.603C139.117 23.1263 138.985 22.5763 138.985 21.953C138.985 21.3297 139.121 20.7797 139.392 20.303C139.671 19.8263 140.049 19.4597 140.525 19.203C141.002 18.939 141.534 18.807 142.12 18.807C142.707 18.807 143.239 18.939 143.715 19.203C144.192 19.4597 144.566 19.8263 144.837 20.303C145.116 20.7797 145.255 21.3297 145.255 21.953C145.255 22.5763 145.112 23.1263 144.826 23.603C144.548 24.0797 144.166 24.45 143.682 24.714C143.206 24.9707 142.67 25.099 142.076 25.099ZM142.076 23.757C142.355 23.757 142.615 23.691 142.857 23.559C143.107 23.4197 143.305 23.2143 143.451 22.943C143.598 22.6717 143.671 22.3417 143.671 21.953C143.671 21.3737 143.517 20.93 143.209 20.622C142.909 20.3067 142.538 20.149 142.098 20.149C141.658 20.149 141.288 20.3067 140.987 20.622C140.694 20.93 140.547 21.3737 140.547 21.953C140.547 22.5323 140.69 22.9797 140.976 23.295C141.27 23.603 141.636 23.757 142.076 23.757ZM150.546 19.852C150.744 19.5293 151.001 19.2763 151.316 19.093C151.639 18.9097 152.005 18.818 152.416 18.818V20.435H152.009C151.525 20.435 151.158 20.5487 150.909 20.776C150.667 21.0033 150.546 21.3993 150.546 21.964V25H149.006V18.906H150.546V19.852ZM159.118 21.821C159.118 22.041 159.104 22.239 159.074 22.415H154.619C154.656 22.855 154.81 23.1997 155.081 23.449C155.353 23.6983 155.686 23.823 156.082 23.823C156.654 23.823 157.061 23.5773 157.303 23.086H158.964C158.788 23.6727 158.451 24.1567 157.952 24.538C157.454 24.912 156.841 25.099 156.115 25.099C155.529 25.099 155.001 24.9707 154.531 24.714C154.069 24.45 153.706 24.0797 153.442 23.603C153.186 23.1263 153.057 22.5763 153.057 21.953C153.057 21.3223 153.186 20.7687 153.442 20.292C153.699 19.8153 154.058 19.4487 154.52 19.192C154.982 18.9353 155.514 18.807 156.115 18.807C156.695 18.807 157.212 18.9317 157.666 19.181C158.128 19.4303 158.484 19.786 158.733 20.248C158.99 20.7027 159.118 21.227 159.118 21.821ZM157.523 21.381C157.516 20.985 157.373 20.6697 157.094 20.435C156.816 20.193 156.475 20.072 156.071 20.072C155.69 20.072 155.367 20.1893 155.103 20.424C154.847 20.6513 154.689 20.9703 154.63 21.381H157.523ZM167.81 18.818C168.558 18.818 169.16 19.049 169.614 19.511C170.076 19.9657 170.307 20.6037 170.307 21.425V25H168.767V21.634C168.767 21.1573 168.646 20.7943 168.404 20.545C168.162 20.2883 167.832 20.16 167.414 20.16C166.996 20.16 166.663 20.2883 166.413 20.545C166.171 20.7943 166.05 21.1573 166.05 21.634V25H164.51V21.634C164.51 21.1573 164.389 20.7943 164.147 20.545C163.905 20.2883 163.575 20.16 163.157 20.16C162.732 20.16 162.395 20.2883 162.145 20.545C161.903 20.7943 161.782 21.1573 161.782 21.634V25H160.242V18.906H161.782V19.643C161.98 19.3863 162.233 19.1847 162.541 19.038C162.857 18.8913 163.201 18.818 163.575 18.818C164.052 18.818 164.477 18.9207 164.851 19.126C165.225 19.324 165.515 19.61 165.72 19.984C165.918 19.632 166.204 19.3497 166.578 19.137C166.96 18.9243 167.37 18.818 167.81 18.818ZM174.475 25.099C173.888 25.099 173.36 24.9707 172.891 24.714C172.421 24.45 172.051 24.0797 171.78 23.603C171.516 23.1263 171.384 22.5763 171.384 21.953C171.384 21.3297 171.519 20.7797 171.791 20.303C172.069 19.8263 172.447 19.4597 172.924 19.203C173.4 18.939 173.932 18.807 174.519 18.807C175.105 18.807 175.637 18.939 176.114 19.203C176.59 19.4597 176.964 19.8263 177.236 20.303C177.514 20.7797 177.654 21.3297 177.654 21.953C177.654 22.5763 177.511 23.1263 177.225 23.603C176.946 24.0797 176.565 24.45 176.081 24.714C175.604 24.9707 175.069 25.099 174.475 25.099ZM174.475 23.757C174.753 23.757 175.014 23.691 175.256 23.559C175.505 23.4197 175.703 23.2143 175.85 22.943C175.996 22.6717 176.07 22.3417 176.07 21.953C176.07 21.3737 175.916 20.93 175.608 20.622C175.307 20.3067 174.937 20.149 174.497 20.149C174.057 20.149 173.686 20.3067 173.386 20.622C173.092 20.93 172.946 21.3737 172.946 21.953C172.946 22.5323 173.089 22.9797 173.375 23.295C173.668 23.603 174.035 23.757 174.475 23.757ZM181.324 23.581L182.864 18.906H184.503L182.248 25H180.378L178.134 18.906H179.784L181.324 23.581ZM191.033 21.821C191.033 22.041 191.019 22.239 190.989 22.415H186.534C186.571 22.855 186.725 23.1997 186.996 23.449C187.268 23.6983 187.601 23.823 187.997 23.823C188.569 23.823 188.976 23.5773 189.218 23.086H190.879C190.703 23.6727 190.366 24.1567 189.867 24.538C189.369 24.912 188.756 25.099 188.03 25.099C187.444 25.099 186.916 24.9707 186.446 24.714C185.984 24.45 185.621 24.0797 185.357 23.603C185.101 23.1263 184.972 22.5763 184.972 21.953C184.972 21.3223 185.101 20.7687 185.357 20.292C185.614 19.8153 185.973 19.4487 186.435 19.192C186.897 18.9353 187.429 18.807 188.03 18.807C188.61 18.807 189.127 18.9317 189.581 19.181C190.043 19.4303 190.399 19.786 190.648 20.248C190.905 20.7027 191.033 21.227 191.033 21.821ZM189.438 21.381C189.431 20.985 189.288 20.6697 189.009 20.435C188.731 20.193 188.39 20.072 187.986 20.072C187.605 20.072 187.282 20.1893 187.018 20.424C186.762 20.6513 186.604 20.9703 186.545 21.381H189.438Z" fill="black"/>
+				</svg>
+
+			</div>
+            <div id="block-hs-2"></div>
+        </div>
+        <div id="cancel-box">
+            <div id="cancel-screen">
+                <div id="cancel-txt">Are you sure you want to exit? All of your items will be removed.</div>
+                <div style={{display:"flex", flexDirection:"row"}}>
+                    <div onClick={() => {noOption();}} className="cancel-opt">No</div>
+                    <div style={{backgroundColor: "#474951"}} onClick={() => {yesOption();}} className="cancel-opt">Yes</div>
                 </div>
             </div>
         </div>
-    );
-    
+        <div id="save-box">
+            <div id="save-screen">
+                <div id="save-txt">Your order has been saved. Use the code below to retrieve your list when you return.</div>
+                <div id="order-code">FGH3456</div>
+                <div style={{display:"flex", flexDirection:"row"}}>
+                    <div onClick={() => {okaySelect();}} className="okay-opt">Okay</div>
+                </div>
+            </div>
+        </div>
+    </div>
+  );
+  
 }
 
 export default HomeScreen;

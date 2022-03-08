@@ -6,7 +6,7 @@ function GroceryList() {
   const generateId = () => new Date().getTime();
 
   const [groceryList, setGroceryList] = useState(groceryUtils.get());
-  const [item, setItem] = useState({ id: generateId(), name: '', quantity: null });
+  const [item, setItem] = useState({ id: generateId(), name: '', quantity: null, price: null, total: null });
 
   const deleteHandler = (id) => {
     groceryUtils.remove(id);
@@ -21,8 +21,8 @@ function GroceryList() {
   const addHandler = (e) => {
     e.preventDefault();
     if (item.name && item.name.trim()) {
-      groceryUtils.createOrUpdate(item.id, item.name.trim(), item.quantity);
-      setItem({ id: generateId(), name: '', quantity: null });
+      groceryUtils.createOrUpdate(item.id, item.name.trim(), item.quantity, item.price, item.total);
+      setItem({ id: generateId(), name: '', quantity: null, price: null, total: null});
       setGroceryList(groceryUtils.get());
     }
   };
@@ -31,7 +31,6 @@ function GroceryList() {
     groceryUtils.clear();
     setGroceryList(groceryUtils.get());
     document.location.reload();
-
   };
 
   return (
@@ -43,7 +42,7 @@ function GroceryList() {
               id="grocery"
               placeholder="e.g. bread"
               value={item.name}
-              onChange={e => setItem({ id: item.id, name: e.target.value, quantity: 5 })} />
+              onChange={() => setItem({id: item.id, name: "", quantity: null, price: null, total: null})} />
             <button type="submit" className="submit-btn">
               submit
             </button>
@@ -56,6 +55,8 @@ function GroceryList() {
               id={listItem.id}
               quantity={listItem.quantity}
               name={listItem.name}
+              price={listItem.price}
+              total={listItem.total}
               remoneOne={removeOneHandler}
               delete={deleteHandler}
             />

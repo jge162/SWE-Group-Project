@@ -40,6 +40,7 @@
 
 #pay-btn-box {
     display: flex;
+    cursor: pointer;
     align-items: center;
     align-self: center;
     justify-content: center;
@@ -53,3 +54,33 @@
     line-height: 16px;
     color: #FFFFFF;
 }
+
+#thank-you-screen {
+    display: none;
+    flex-direction: column;
+    width: 100%;
+    height: 600px;
+    background: linear-gradient(#ffffff 0px);
+    align-items: center;
+}
+
+#thankyou-text {
+    display: flex;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 30px;
+    line-height: 22px;
+    color: #161D39;
+    height: 100%;
+    z-index: 1;
+    align-items: center;
+}
+#load-gif {
+    position: absolute;
+    height: 600px;
+    width: 700px;
+    z-index: 0;
+    filter: saturate(90%);
+}
+
+

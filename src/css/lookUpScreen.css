@@ -7,6 +7,7 @@
 }
 
 #go-back-btn {
+  cursor: pointer;
   margin-top: 15px;
   padding: 15px 28px 13px 28px;
 }
@@ -17,6 +18,7 @@
 }
 
 #search-bar {
+  cursor: pointer;
   font-family: Poppins;
   font-weight: 600;
   font-size: 11px;
@@ -41,6 +43,7 @@
 }
 
 .grocery-box {
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -137,6 +140,7 @@
   }
   
   .number-btn {
+    cursor: pointer;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -158,12 +162,14 @@
   }
 
   #delete-btn-num {
+    cursor: pointer;
     background-color: #DE5050;
     border: none;
     border-radius: 8px;
   }
 
   #enter-btn-num {
+    cursor: pointer;
     background-color: #31BF61;
   }
 

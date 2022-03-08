@@ -25,10 +25,33 @@
     color: #161D39;
   }
 
-  #retrieve-btn {
+  #save-btn {
+    cursor: pointer;
     display: flex;
     margin-top: -7px;
     margin-left: auto;
+    margin-right: 10px;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 16px;
+    text-align: center;
+    color: #FFFFFF;
+    width: 145px;
+    height: 38px;
+    background-color: #41434a;
+  }
+
+  #save-btn:hover {
+    background-color: #494b53;
+  }
+  #retrieve-btn {
+    cursor: pointer;
+    display: flex;
+    margin-top: -7px;
     margin-right: 100px;
     align-items: center;
     justify-content: center;
@@ -137,7 +160,8 @@
     line-height: 16px;
   }
 
-  .remove-all-btn {   
+  .remove-all-btn { 
+    cursor: pointer;  
     display: flex;
     align-items: center;
     justify-content: center;
@@ -196,6 +220,8 @@
   }
 
   #output {
+    cursor: pointer;
+
     font-family: Poppins;
     font-weight: 600;
     font-size: 11px;
@@ -254,6 +280,7 @@
   }
 
   #enter-btn {
+    cursor: pointer;
     display: flex;
     margin-left: auto;
     margin-right: -10px;
@@ -299,6 +326,7 @@
   }
 
   #done-btn {
+    cursor: pointer;
     display: none;
     align-items: center;
     align-self: center;
@@ -434,19 +462,22 @@
   }
   
   #cancel-btn {
+    cursor: pointer;
     width: 145px;
     height: 38px;
     background: #DE5050;
   }
   
   #remove-btn {
-    width: 118px;
+    cursor: pointer;
+    width: 140px;
     height: 38px;
     background: #474951;
     margin-right: 13px
   }
   
   #look-up-btn {
+    cursor: pointer;
     width: 330px;
     height: 38px;
     background: #416EFE;
@@ -455,16 +486,83 @@
   }
   
   #finish-btn {
+    cursor: pointer;
     width: 334px;
     height: 59px;
     background-color: #31BF61;
-    margin-top: 44px;
   }
   
   .item {
     z-index: 1;
     width: 100px;
     height: 100px;
+  }
+
+  #save-box {
+    display: none;
+    position: absolute;
+    justify-content: center;
+    align-items: center;
+    z-index: 2;
+    height: 600px;
+    width: 1000px;
+    background-color: rgba(0, 0, 0, 0.55);
+  }
+
+  #save-screen {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    width: 388px;
+    height: 220px;
+    background: #FFFFFF;
+    border-radius: 8px;
+  }
+
+  #save-txt {
+    width: 304px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 15px;
+    line-height: 22px;
+    text-align: center;
+    color: #161D39;
+  }
+
+  #order-code {
+    margin-top: 20px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 20px;
+    line-height: 22px;
+    text-align: center;
+    color: #161D39;
+    text-shadow: 2px 1px rgb(200, 200, 200);
+  }
+
+  .okay-opt {
+    cursor: pointer;
+    display: flex;
+    margin: 20px 12.5px 0 12.5px;
+    align-items: center;
+    justify-content: center;
+    width: 92px;
+    height: 38px;
+    background: #161D39;
+    border-radius: 8px;
+    font-family: Poppins;
+    font-style: normal;
+    font-weight: 600;
+    font-size: 11px;
+    line-height: 16px;
+    color: #FFFFFF;
+  }
+
+  .okay-opt:hover {
+    opacity: 90%;
   }
 
   #cancel-box {
@@ -501,6 +599,7 @@
   }
   
   .cancel-opt {
+    cursor: pointer;
     display: flex;
     margin: 24px 12.5px 0 12.5px;
     align-items: center;
@@ -527,4 +626,52 @@
     width: 414px;
     height: 600px;
     position: absolute;
+  }
+
+  #save-error {
+    width: 75%;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  #pop-up-3 {
+    display: flex;
+    opacity: 0;
+    margin-top: 38px;
+    position: absolute;
+  }
+
+  #complete-error {
+    margin-top: 44px;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+
+  #pop-up-1 {
+    display: flex;
+    opacity: 0;
+    position: absolute;
+  }
+
+  #remove-error {
+    width: 70%;
+    display: flex;
+    align-items: center;
+  }
+
+  #pop-up-2 {
+    display: flex;
+    opacity: 0;
+    position: absolute;
+    margin-top: 15px;
+  }
+
+  @keyframes fadeIn {
+    0% {opacity:0;}
+    10%{opacity: 1;}
+    75%{opacity:1}
+    100% {opacity:0}
   }

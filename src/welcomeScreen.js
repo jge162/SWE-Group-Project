@@ -12,7 +12,6 @@ function WelcomeScreen() {
 
     return (
         <>
-        {console.log(groceryList)}
         {groceryList.length !== 0 ? (
             <div style={{display: "none"}} onClick={() => {begin();}} id="welcome-screen">
                 <div style={{position: "absolute", marginTop:"-200px", color: "rgb(209, 209, 209)", fontSize:"25px", fontStyle:"italic"}}>Your Logo Here</div>

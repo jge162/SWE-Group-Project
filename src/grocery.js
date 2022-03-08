@@ -34,6 +34,7 @@ function editQuantity(id) {
     items = items.map(function (item) {
         if (item.id === id) {
             item.quantity = item.quantity-1;
+            item.total = (Number(item.quantity) * Number(item.price)).toFixed(2)
         }
         return item;
     });
@@ -43,17 +44,17 @@ function editQuantity(id) {
 const helpers = {
     get,
     getbyId,
-    createOrUpdate: (id, name, quantity) => {
+    createOrUpdate: (id, name, quantity, price, total) => {
         const item = getbyId(id);
         if (item && item.id) {
             return edit(id, name);
         }
-        const grocery = { id, name, quantity };
+        const grocery = { id, name, quantity, price, total };
         const items = get();
         items.push(grocery);
         updateDataStore(items);
     },
-    removeOne: (id, name, quantity) => {
+    removeOne: (id, name, quantity, price, total) => {
         const item = getbyId(id);
         if (item && item.id) {
             if (item.quantity === 1) {
@@ -65,7 +66,7 @@ const helpers = {
             return editQuantity(id);
         }
 
-        const grocery = { id, name, quantity };
+        const grocery = { id, name, quantity, price, total };
         const items = get();
         items.push(grocery);
         updateDataStore(items);

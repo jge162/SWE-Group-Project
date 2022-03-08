@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import './css/lookUpScreen.css';
 import groceryUtils from './grocery';
 function SearchList({ filteredItems }) {
+  var [groceryID, setGroceryID] = useState("");
   var [groceryItem, setGroceryItem] = useState("");
   var [groceryPrice, setGroceryPrice] = useState("");
   var [amount, setAmountField] = useState("");
@@ -9,6 +10,7 @@ function SearchList({ filteredItems }) {
 
   const itemDetails = (item) => {
     document.querySelector('#add-box').style.display = "flex";
+    setGroceryID(item.id)
     setGroceryItem(item.name);
     setGroceryPrice(item.price);
   }
@@ -28,10 +30,12 @@ function SearchList({ filteredItems }) {
   );
 
   const pressNumberPad = (value) => {
-    var prevText = document.querySelector("#add-amount").value;
-    document.querySelector("#add-amount").value = prevText + value;
-    setAmountField(prevText + value);
-    setZeroDisabled(false);
+    if (document.querySelector("#add-amount").value.length < 3) {
+      var prevText = document.querySelector("#add-amount").value;
+      document.querySelector("#add-amount").value = prevText + value;
+      setAmountField(prevText + value);
+      setZeroDisabled(false);
+    }
   }
 
   const removeNumber = () => {
@@ -43,11 +47,6 @@ function SearchList({ filteredItems }) {
       setZeroDisabled(true);
   }
 
-  const generateId = () => new Date().getTime();
-
-  const [item, setItem] = useState({ id: generateId(), name: '', quantity: null });
-  const [groceryList, setGroceryList] = useState(groceryUtils.get());
-
   const enterAmount = () => {
     if (document.querySelector("#add-amount").value === "")
       return;
@@ -58,17 +57,23 @@ function SearchList({ filteredItems }) {
     document.querySelector('#add-box').style.display = "none";
     document.querySelector('#look-up-screen').style.display = "none";
     document.querySelector('#home-screen').style.display = "flex";
-    var groceryTotal = groceryPrice.replace('$', '')
-    var value = (parseFloat(amount) * parseFloat(groceryTotal)).toFixed(2)
-    groceryTotal = value.toString()
 
-    groceryUtils.createOrUpdate(item.id, groceryItem, parseInt(amount));
-    setItem({ id: item.id, name: groceryItem, quantity: parseInt(amount) })
-    setGroceryList(groceryUtils.get());
-    console.log(groceryUtils.get())
+    var groceryPriceFormat = Number(groceryPrice.replace('$', '')).toFixed(2)
+    var groceryTotal = (Number(amount) * groceryPriceFormat).toFixed(2)
+
+    groceryUtils.createOrUpdate(groceryID, groceryItem, parseInt(amount), groceryPriceFormat, groceryTotal);
+
+    var subTotal = 0;
+    [...groceryUtils.get()].map((listItem) =>
+      subTotal += Number(listItem.total)
+    )
+
+    var salesTax = subTotal * 0.0825
+    var grandTotal = subTotal + salesTax
+    localStorage.setItem("total", JSON.stringify([subTotal.toFixed(2), salesTax.toFixed(2), grandTotal.toFixed(2)]));
+
     document.querySelector('#welcome-screen').style.display = "none";
     document.querySelector('#home-screen').style.display = "flex";
-    document.getElementById("refresh").click();
     document.location.reload();
   }
 
@@ -84,8 +89,8 @@ function SearchList({ filteredItems }) {
           <div id="add-question">How many would you like to add {"\n"}for the following item: <input id="item-name" readOnly style={{ fontFamily: "Poppins", fontWeight: "bold", fontSize: "16px", color: "blue", border: "none", width: "100%", textAlign: "center" }} value={groceryItem}></input></div>
           <input readOnly id="add-amount" type="text" />
           <div id="number-pad">
-            <input onClick={e => { pressNumberPad(e.target.value); }} value="1" type="button" className="number-btn"></input>
-            <input onClick={e => { pressNumberPad(e.target.value); }} value="2" type="button" className="number-btn"></input>
+            <input id="number-btn" onClick={e => { pressNumberPad(e.target.value); }} value="1" type="button" className="number-btn"></input>
+            <input id="number-btn" onClick={e => { pressNumberPad(e.target.value); }} value="2" type="button" className="number-btn"></input>
             <input onClick={e => { pressNumberPad(e.target.value); }} value="3" type="button" className="number-btn"></input>
             <div style={{ width: "100%", height: "6px" }}></div>
             <input onClick={e => { pressNumberPad(e.target.value); }} value="4" type="button" className="number-btn"></input>
