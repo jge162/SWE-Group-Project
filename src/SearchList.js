@@ -59,9 +59,21 @@ function SearchList({ filteredItems }) {
     document.querySelector('#home-screen').style.display = "flex";
 
     var groceryPriceFormat = Number(groceryPrice.replace('$', '')).toFixed(2)
-    var groceryTotal = (Number(amount) * groceryPriceFormat).toFixed(2)
 
-    groceryUtils.createOrUpdate(groceryID, groceryItem, parseInt(amount), groceryPriceFormat, groceryTotal);
+    var prevGrocery = groceryUtils.get()
+    var existingItem = false;
+    for (let i = 0; i < prevGrocery.length; i++) {
+      if (prevGrocery[i].name === groceryItem) {
+        amount = parseInt(prevGrocery[i].quantity) + parseInt(amount);
+        existingItem = true
+        groceryUtils.createOrUpdate(groceryID, groceryItem, parseInt(amount), groceryPriceFormat, (Number(amount) * groceryPriceFormat).toFixed(2));
+      }
+    }
+
+    if (!existingItem) {
+      var groceryTotal = (Number(amount) * groceryPriceFormat).toFixed(2)
+      groceryUtils.createOrUpdate(groceryID, groceryItem, parseInt(amount), groceryPriceFormat, groceryTotal);
+    }    
 
     var subTotal = 0;
     [...groceryUtils.get()].map((listItem) =>

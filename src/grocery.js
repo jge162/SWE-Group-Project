@@ -18,11 +18,13 @@ function getbyId(id) {
     return (item && item.length) ? item[0] : {};
 };
 
-function edit(id, name) {
+function edit(id, name, quantity, total) {
     let items = get();
     items = items.map(function (item) {
         if (item.id === id) {
             item.name = name;
+            item.quantity = quantity;
+            item.total = total;
         }
         return item;
     });
@@ -47,7 +49,7 @@ const helpers = {
     createOrUpdate: (id, name, quantity, price, total) => {
         const item = getbyId(id);
         if (item && item.id) {
-            return edit(id, name);
+            return edit(id, name, quantity, total);
         }
         const grocery = { id, name, quantity, price, total };
         const items = get();
