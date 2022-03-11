@@ -22,8 +22,6 @@ function WelcomeScreen() {
             </div>
         )}
         </>
-
-       
     );
 }
 
