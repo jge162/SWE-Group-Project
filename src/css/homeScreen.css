@@ -541,6 +541,7 @@
     text-align: center;
     color: #161D39;
     text-shadow: 2px 1px rgb(200, 200, 200);
+    border: none;
   }
 
   .okay-opt {

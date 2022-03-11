@@ -27,7 +27,7 @@ const FinishScreen = () => {
             </svg>
             <div id="total-box">
                 <div id="total-txt">Grand Total: </div>
-                <div id="total-price">${JSON.parse(localStorage.getItem("total")).length > 0 ? JSON.parse(localStorage.getItem("total"))[2]: "0.00"}</div>
+                <div id="total-price">${(localStorage.getItem("total")) !== null ? JSON.parse(localStorage.getItem("total"))[2]: "0.00"}</div>
             </div>
             <div onClick={() => {placeOrder();}} id="pay-btn-box">
                 Place Order

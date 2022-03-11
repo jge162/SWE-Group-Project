@@ -5,6 +5,7 @@ import FinishScreen from './finishScreen';
 import WelcomeScreen from './welcomeScreen';
 
 function App() {
+
   // window.onload = function() {
   //   inactivityTime();
   // }
@@ -35,37 +36,13 @@ function App() {
   return (
     <div className="App">
         <div id="interactive-screen">
-
-      <WelcomeScreen></WelcomeScreen>
-      <HomeScreen></HomeScreen>
-      <LookUpScreen></LookUpScreen>
-      <FinishScreen></FinishScreen>
+          <WelcomeScreen></WelcomeScreen>
+          <HomeScreen></HomeScreen>
+          <LookUpScreen></LookUpScreen>
+          <FinishScreen></FinishScreen>
     </div>
     </div>
   );
 }
 
 export default App;
-
-
-
-    // // add item divs to home screen
-    // const item_info =
-    // React.createElement('div', { className: 'item-info' },
-    //   React.createElement('div', { className: 'item-count' }, amount),
-    //   React.createElement('div', { className: 'item-name' }, groceryItem),
-    //   React.createElement('div', { className: 'item-cost-box' }, 
-    //     React.createElement('div', { className: 'item-cost' }, groceryPrice),
-    //     React.createElement('div', { className: 'separator' }, ),
-    //     React.createElement('div', { className: 'item-total' }, "$"+ groceryTotal + " total"),
-    //   ),
-    //   React.createElement('div', { className: 'item-remove-box' }, 
-    //     React.createElement('div', { className: 'remove-all-btn' }, "Remove all"),
-    //     React.createElement('div', { className: 'remove-one-btn' }, "Remove 1"),
-    //   ),
-    // );
-    
-    // ReactDOM.render(
-    //   item_info,
-    //   document.getElementById('item-list')
-    // );

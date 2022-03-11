@@ -21,7 +21,6 @@
 #interactive-screen {
   display: flex;
   background-color: white;
-  margin-bottom: -20px;
   width: 1000px;
   height: 600px;
 }
@@ -45,6 +44,7 @@
   line-height: 36px;
   text-align: center;
   color: #A9B1D1;
+  margin-top: 50px;
 }
 
 #title2 {
@@ -55,6 +55,8 @@
   text-align: center;
   color: #161D39;
   animation: fade 2s infinite;
+  margin-bottom: 50px;
+
 }
 
 @keyframes fade {
