@@ -38,7 +38,6 @@ const LookUpScreen = () => {
   };
 
   function searchList() {
-    console.log(filteredItems)
     return (
         <div style={{marginTop: "47px", padding: "0 113px 0 113px", overflowY: 'scroll', height:'403px'}}>
             <SearchList filteredItems={filteredItems} />

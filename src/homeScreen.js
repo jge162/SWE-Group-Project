@@ -16,9 +16,6 @@ function HomeScreen() {
       document.querySelector('#home-screen').style.display = "none";
       document.querySelector('#finish-screen').style.display = "flex";
     }
-    else {
-      document.querySelector("#pop-up-1").style.animation = "2s fadeIn linear"
-    }
   }
 
   const retrieveScreen = () => {
@@ -42,9 +39,6 @@ function HomeScreen() {
       document.querySelector('#order-code').value = uuid;
       document.querySelector('#save-box').style.display = "flex";
       document.querySelector('#save-box').style.display = "flex";
-    }
-    else {
-      document.querySelector("#pop-up-3").style.animation = "2s fadeIn linear"
     }
   }
 
@@ -70,9 +64,6 @@ function HomeScreen() {
       document.querySelector('#done-btn').style.display = "flex";
       document.querySelector("#block-hs-2").style.display = "flex"
       }
-    }
-    else {
-      document.querySelector("#pop-up-2").style.animation = "2s fadeIn linear"
     }
   }
 
@@ -198,7 +189,16 @@ function HomeScreen() {
           </svg>
         </div>
         <div id="item-title">Selected Items
-          <div onClick={() => {saveOrder();}} id="save-btn">Save Order</div>
+          <div 
+          onClick={() => {
+            if (groceryList.length !== 0) {
+              saveOrder();
+            } else {
+              document.getElementById("pop-up-3").style.animation = 'unset';
+              setTimeout(() => { document.getElementById("pop-up-3").style.animation = "fadeIn 2s linear"}, 0);
+            }
+          }
+          } id="save-btn">Save Order</div>
           <div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve Order</div>
         </div>
         <div id="item-list">
@@ -304,10 +304,26 @@ function HomeScreen() {
             <rect x="84" y="22" width="51" height="7" fill="white"/>
           </svg>
 			</div>
-            <div onClick={() => {finishScreen();}} className="btn-design" id="finish-btn">Complete Order</div>
+            <div onClick={() => {
+            if (groceryList.length !== 0) {
+              finishScreen();
+            } else {
+              document.getElementById("pop-up-1").style.animation = 'unset';
+              setTimeout(() => { document.getElementById("pop-up-1").style.animation = "fadeIn 2s linear"}, 0);
+            }
+          }
+          } className="btn-design" id="finish-btn">Complete Order</div>
             <div onClick={() => {lookUpScreen();}} className="btn-design" id="look-up-btn">Look Up Item</div>
             <div style={{display: "flex", flexDirection: "row"}}>
-                <div onClick={() => removeItems()} className="btn-design" id="remove-btn">Remove Item(s)</div>
+                <div onClick={() => {
+            if (groceryList.length !== 0) {
+              removeItems();
+            } else {
+              document.getElementById("pop-up-2").style.animation = 'unset';
+              setTimeout(() => { document.getElementById("pop-up-2").style.animation = "fadeIn 2s linear"}, 0);
+            }
+          }
+          }className="btn-design" id="remove-btn">Remove Item(s)</div>
                 <div onClick={() => {cancelScreen();}} className="btn-design" id="cancel-btn">Cancel Process</div>
             </div>
 			<div id="remove-error">
