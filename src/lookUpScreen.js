@@ -5,23 +5,42 @@ import SearchList from './SearchList';
 
 const LookUpScreen = () => {
   const [searchField, setSearchField] = useState("");
+  const [itemType, setitemType] = useState("");
   
-  const filteredItems = initialDetails.filter(
+  if (searchField !== "") {
+    var filteredItems = initialDetails.filter(
       item => {
           return (
           item.name.toLowerCase().includes(searchField.toLowerCase()) ||
           item.id.toLowerCase().includes(searchField.toLowerCase())
           );
+        }
+    );
+  }
+  else {
+    var filteredItems = initialDetails.filter(
+      item => {
+        return (
+          item.category.toLowerCase().includes(itemType.toLowerCase())
+        );
       }
-  );
-
-  const handleChange = (e) => {
+    );
+  }
+  
+  const keyboardButton = (e) => {
     setSearchField(e);
+    setitemType("");
+  };
+
+  const categoryButton = (e) => {
+    setSearchField("");
+    setitemType(e);
   };
 
   function searchList() {
+    console.log(filteredItems)
     return (
-        <div style={{marginTop: "58px", padding: "0 113px 0 113px", overflowY: 'scroll', height:'453px'}}>
+        <div style={{marginTop: "47px", padding: "0 113px 0 113px", overflowY: 'scroll', height:'403px'}}>
             <SearchList filteredItems={filteredItems} />
         </div>	
     );
@@ -34,14 +53,14 @@ const LookUpScreen = () => {
   const pressKey = (value) => {
     var prevText = document.querySelector("#search-bar").value;
     document.querySelector("#search-bar").value = prevText + value
-    handleChange(prevText + value);
+    keyboardButton(prevText + value);
   }
 
   const removeKey = () => {
     var prevText = document.querySelector("#search-bar").value;
     prevText = prevText.slice(0, -1);
     document.querySelector("#search-bar").value = prevText;
-    handleChange(prevText);
+    keyboardButton(prevText);
   }
 
   const searchScreen = () => {
@@ -53,7 +72,7 @@ const LookUpScreen = () => {
     document.querySelector('#home-screen').style.display = "flex";
     document.querySelector('#search-screen').style.display = "none";
     document.querySelector("#search-bar").value = "";
-    handleChange("");
+    keyboardButton("");
   }
 
   return (
@@ -64,6 +83,12 @@ const LookUpScreen = () => {
     <div style={{marginLeft:"71px"}}>
       <div className="search">
         <input readOnly onClick={() => {searchScreen();}} id="search-bar" type="search" placeholder="Search"/>
+      </div>
+      <div id="category-btns">
+        <div onClick={e => {categoryButton("fruit");}} id="fruit-btn" className="cat-btn">Fruit</div>
+        <div onClick={e => {categoryButton("vegetable");}} id="vegetable-btn" className="cat-btn">Vegetable</div>
+        <div onClick={e => {categoryButton("snack");}} id="snack-btn" className="cat-btn">Snack</div>
+        <div onClick={e => {categoryButton("miscellaneous");}} id="misc-btn" className="cat-btn">Miscellaneous</div>
       </div>
       {searchList()}
       <div id="search-screen">

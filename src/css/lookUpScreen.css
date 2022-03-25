@@ -7,9 +7,10 @@
 }
 
 #go-back-btn {
+  display: flex;
   cursor: pointer;
   margin-top: 15px;
-  padding: 15px 28px 13px 28px;
+  padding: 15px 28px 6px 28px;
 }
 
 .search {
@@ -42,6 +43,35 @@
   color: #9EA9D5;
 }
 
+#category-btns {
+  display: flex;
+  justify-content: center;
+  margin-top: 30px;
+}
+
+.cat-btn {
+  display: flex;
+  cursor: pointer;
+  display: flex;
+  margin: 0 20px 0 20px;
+  align-items: center;
+  justify-content: center;
+  border-radius: 8px;
+  font-family: Poppins;
+  font-weight: 600;
+  font-size: 11px;
+  line-height: 16px;
+  text-align: center;
+  color: #FFFFFF;
+  width: 145px;
+  height: 38px;
+  background-color: #263e8e;
+}
+
+.cat-btn:hover {
+  opacity: 90%;
+}
+
 .grocery-box {
   cursor: pointer;
   display: flex;
@@ -51,7 +81,7 @@
   height: 178px;
   background-color: #F6FAFD;
   border-radius: 8px;
-  margin: 0 20px 30px 20px;
+  margin: 0 20px 70px 20px;
   justify-content: space-evenly;
 }
 
@@ -81,7 +111,7 @@
   #add-box {
     display: none;
     position: absolute;
-    margin: -147px 0 0 -185px;
+    margin: -197px 0 0 -185px;
     justify-content: center;
     align-items: center;
     z-index: 2;
