@@ -59,8 +59,27 @@
 
 }
 
+#adjust-screen-notif {
+  width: 100%;
+  background-color: rgba(0, 0, 0, 0.858);
+  height: 100%;
+  position: absolute;
+  z-index: 3;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  color: white;
+  font-size: 50px;
+  font-weight: bold;
+  display: none;
+}
+
 @keyframes fade {
   0%   { opacity:1; }
   50%  { opacity:0; }
   100% { opacity:1; }
+}
+
+@media (max-width: 1000px) {
+  #adjust-screen-notif{display: flex;}
 }

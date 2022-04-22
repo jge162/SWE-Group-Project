@@ -48,8 +48,25 @@ function SearchList({ filteredItems }) {
   }
 
   const enterAmount = () => {
+    document.getElementById("quantity-error").style.display = "none";
+    var exceedsAmount = false;
     if (document.querySelector("#add-amount").value === "")
       return;
+    
+    [...groceryUtils.get()].map((listItem) =>
+    {
+      if (listItem.name === groceryItem) {
+        if (listItem.quantity + parseInt(document.querySelector("#add-amount").value) > 999) {
+          document.getElementById("quantity-error").style.display = "flex";
+          exceedsAmount = true;
+
+        }
+      }
+    })
+
+    if (exceedsAmount) 
+      return;
+
 
     setAmountField(document.querySelector("#add-amount").value);
 
@@ -99,6 +116,7 @@ function SearchList({ filteredItems }) {
             <rect x="2.20688" y="0.594833" width="20" height="2" transform="rotate(50 2.20688 0.594833)" fill="#161D39" />
           </svg>
           <div id="add-question">How many would you like to add {"\n"}for the following item: <input id="item-name" readOnly style={{ fontFamily: "Poppins", fontWeight: "bold", fontSize: "16px", color: "blue", border: "none", width: "100%", textAlign: "center" }} value={groceryItem}></input></div>
+          <div id="quantity-error">Item quantity exceeds allowed {"\n"} amount of 999 and under</div>
           <input readOnly id="add-amount" type="text" />
           <div id="number-pad">
             <input id="number-btn" onClick={e => { pressNumberPad(e.target.value); }} value="1" type="button" className="number-btn"></input>

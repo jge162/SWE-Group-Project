@@ -141,6 +141,19 @@
     margin-top: 10px;
   }
 
+  #quantity-error {
+    display: none;
+    font-family: Poppins;
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 15px;
+    text-align: center;
+    color: #a3231f;
+    white-space: pre-wrap;
+    margin-top: 25px;
+    position: absolute;
+  }
+
   #add-amount {
     width: 240px;
     height: 38px;
