@@ -637,10 +637,10 @@
   }
 
   #pop-up-3 {
-    display: flex;
-    opacity: 0;
-    margin-top: 38px;
+    display: none;
     position: absolute;
+    animation: fadeIn 1s linear;
+    margin-top: 38px;
   }
 
   #complete-error {
@@ -652,9 +652,9 @@
   }
 
   #pop-up-1 {
-    display: flex;
-    opacity: 0;
+    display: none;
     position: absolute;
+    animation: fadeIn 1s linear;
   }
 
   #remove-error {
@@ -664,9 +664,9 @@
   }
 
   #pop-up-2 {
-    display: flex;
-    opacity: 0;
+    display: none;
     position: absolute;
+    animation: fadeIn 1s linear;
     margin-top: 15px;
   }
 

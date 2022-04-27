@@ -34,8 +34,8 @@ function App() {
  
   return ( 
     <>
-      <div className="App">
       <div id="adjust-screen-notif">Please expand the screen</div>
+      <div className="App">
         <div id="interactive-screen">
           <WelcomeScreen></WelcomeScreen>
           <HomeScreen></HomeScreen>

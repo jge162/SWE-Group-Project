@@ -34,7 +34,7 @@ const FinishScreen = () => {
             </div>
         </div>
         <div id="thank-you-screen">
-            <div id="thankyou-text">Thank you, your order has been processed.</div>
+            <div id="thankyou-text">Thank you, your order is being processed.</div>
             <img id="load-gif" src={shapes} alt="shapes"/>
         </div>
         </>

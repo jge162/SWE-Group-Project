@@ -18,6 +18,7 @@ function SearchList({ filteredItems }) {
   const closeAmount = () => {
     document.querySelector('#add-box').style.display = "none";
     document.querySelector("#add-amount").value = "";
+    document.getElementById("quantity-error").style.display = "none";
   }
 
   const filtered = filteredItems.map(item =>
@@ -49,17 +50,17 @@ function SearchList({ filteredItems }) {
 
   const enterAmount = () => {
     document.getElementById("quantity-error").style.display = "none";
+
     var exceedsAmount = false;
     if (document.querySelector("#add-amount").value === "")
       return;
-    
+
     [...groceryUtils.get()].map((listItem) =>
     {
       if (listItem.name === groceryItem) {
         if (listItem.quantity + parseInt(document.querySelector("#add-amount").value) > 999) {
           document.getElementById("quantity-error").style.display = "flex";
           exceedsAmount = true;
-
         }
       }
     })

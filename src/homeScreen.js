@@ -194,8 +194,8 @@ function HomeScreen() {
             if (groceryList.length !== 0) {
               saveOrder();
             } else {
-              document.getElementById("pop-up-3").style.animation = 'unset';
-              setTimeout(() => { document.getElementById("pop-up-3").style.animation = "fadeIn 2s linear"}, 0);
+              document.getElementById("pop-up-3").style.display = "flex"
+              setTimeout(() => {document.getElementById("pop-up-3").style.display = "none"}, 1000);
             }
           }
           } id="save-btn">Save Order</div>
@@ -308,8 +308,8 @@ function HomeScreen() {
             if (groceryList.length !== 0) {
               finishScreen();
             } else {
-              document.getElementById("pop-up-1").style.animation = 'unset';
-              setTimeout(() => { document.getElementById("pop-up-1").style.animation = "fadeIn 2s linear"}, 0);
+              document.getElementById("pop-up-1").style.display = "flex"
+              setTimeout(() => { document.getElementById("pop-up-1").style.display = "none"}, 1000);
             }
           }
           } className="btn-design" id="finish-btn">Complete Order</div>
@@ -319,8 +319,8 @@ function HomeScreen() {
             if (groceryList.length !== 0) {
               removeItems();
             } else {
-              document.getElementById("pop-up-2").style.animation = 'unset';
-              setTimeout(() => { document.getElementById("pop-up-2").style.animation = "fadeIn 2s linear"}, 0);
+              document.getElementById("pop-up-2").style.display = "flex"
+              setTimeout(() => { document.getElementById("pop-up-2").style.display = "none"}, 1000);
             }
           }
           }className="btn-design" id="remove-btn">Remove Item(s)</div>
