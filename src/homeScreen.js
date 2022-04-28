@@ -195,7 +195,7 @@ function HomeScreen() {
               saveOrder();
             } else {
               document.getElementById("pop-up-3").style.display = "flex"
-              setTimeout(() => {document.getElementById("pop-up-3").style.display = "none"}, 1000);
+              setTimeout(() => {document.getElementById("pop-up-3").style.display = "none"}, 2000);
             }
           }
           } id="save-btn">Save Order</div>
@@ -309,7 +309,7 @@ function HomeScreen() {
               finishScreen();
             } else {
               document.getElementById("pop-up-1").style.display = "flex"
-              setTimeout(() => { document.getElementById("pop-up-1").style.display = "none"}, 1000);
+              setTimeout(() => { document.getElementById("pop-up-1").style.display = "none"}, 2000);
             }
           }
           } className="btn-design" id="finish-btn">Complete Order</div>
@@ -320,7 +320,7 @@ function HomeScreen() {
               removeItems();
             } else {
               document.getElementById("pop-up-2").style.display = "flex"
-              setTimeout(() => { document.getElementById("pop-up-2").style.display = "none"}, 1000);
+              setTimeout(() => { document.getElementById("pop-up-2").style.display = "none"}, 2000);
             }
           }
           }className="btn-design" id="remove-btn">Remove Item(s)</div>

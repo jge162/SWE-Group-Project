@@ -654,7 +654,7 @@
   #pop-up-1 {
     display: none;
     position: absolute;
-    animation: fadeIn 1s linear;
+    animation: fadeIn 2s linear;
   }
 
   #remove-error {
@@ -666,7 +666,7 @@
   #pop-up-2 {
     display: none;
     position: absolute;
-    animation: fadeIn 1s linear;
+    animation: fadeIn 2s linear;
     margin-top: 15px;
   }
 
