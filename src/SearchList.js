@@ -106,23 +106,6 @@ function SearchList({ filteredItems }) {
     document.location.reload();
   }
 
-  const escFunction = useCallback((event) => {
-    if (event.key) {
-      const end = document.getElementById("add-amount").value.length;
-
-      document.getElementById("add-amount").setSelectionRange(end, end);
-      document.getElementById("add-amount").focus()
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false);
-    };
-  }, []);
-
   return (
     <>
       <div id="add-box">

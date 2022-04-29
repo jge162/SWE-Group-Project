@@ -182,22 +182,6 @@ function HomeScreen() {
     localStorage.setItem("total", JSON.stringify([subTotal.toFixed(2), salesTax.toFixed(2), grandTotal.toFixed(2)]));
   };
 
-  const escFunction = useCallback((event) => {
-    if (event.key) {
-      const end = document.getElementById("output").value.length;
-      document.getElementById("output").setSelectionRange(end, end);
-      document.getElementById("output").focus()
-    }
-  }, []);
-
-  useEffect(() => {
-    document.addEventListener("keydown", escFunction, false);
-
-    return () => {
-      document.removeEventListener("keydown", escFunction, false);
-    };
-  }, []);
-
   return (
     <div id="home-screen">
       	<div id="hs-1">
@@ -220,7 +204,7 @@ function HomeScreen() {
             }
           }
           } id="save-btn">Save List</div>
-          <div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve List</div>
+          <div onClick={() => {retrieveScreen();document.getElementById("output").focus();}} id="retrieve-btn">Retrieve List</div>
         </div>
         <div id="item-list">
           {/* Item divs get added here */}
