@@ -170,6 +170,7 @@
   }
 
   .remove-one-btn {
+    cursor: pointer;  
     display: flex;
     margin-left: 30px;
     align-items: center;
