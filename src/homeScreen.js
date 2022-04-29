@@ -1,5 +1,5 @@
 import './css/homeScreen.css';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback, setState } from 'react';
 import groceryUtils from './grocery';
 import GroceryItem from './groceryItem';
 import { v4 as uuidv4 } from 'uuid';
@@ -11,6 +11,7 @@ function HomeScreen() {
   }
 
   const finishScreen = () => {
+
     // goes to grand total only if there is a price over $0
     if (groceryList.length !== 0) {
       document.querySelector('#home-screen').style.display = "none";
@@ -68,6 +69,8 @@ function HomeScreen() {
   }
 
   const doneRemove = () => {   
+    document.location.reload();
+
     for (var i=0; i< document.getElementsByClassName('item-count').length; i++){
       document.getElementsByClassName('item-count')[i].style.backgroundColor = "#E9F2F9";
       document.getElementsByClassName('item-count')[i].style.color = "#161D39";
@@ -85,8 +88,10 @@ function HomeScreen() {
   }
 
   const pressKey = (value) => {
-    var prevText = document.querySelector("#output").value;
-    document.querySelector("#output").value = prevText + value
+    if (document.querySelector("#output").value.length < 8) {
+      var prevText = document.querySelector("#output").value;
+      document.querySelector("#output").value = prevText + value
+    }
   }
 
   const removeKey = () => {
@@ -177,6 +182,22 @@ function HomeScreen() {
     localStorage.setItem("total", JSON.stringify([subTotal.toFixed(2), salesTax.toFixed(2), grandTotal.toFixed(2)]));
   };
 
+  const escFunction = useCallback((event) => {
+    if (event.key) {
+      const end = document.getElementById("output").value.length;
+      document.getElementById("output").setSelectionRange(end, end);
+      document.getElementById("output").focus()
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, []);
+
   return (
     <div id="home-screen">
       	<div id="hs-1">
@@ -198,8 +219,8 @@ function HomeScreen() {
               setTimeout(() => {document.getElementById("pop-up-3").style.display = "none"}, 2000);
             }
           }
-          } id="save-btn">Save Order</div>
-          <div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve Order</div>
+          } id="save-btn">Save List</div>
+          <div onClick={() => {retrieveScreen();}} id="retrieve-btn">Retrieve List</div>
         </div>
         <div id="item-list">
           {/* Item divs get added here */}
@@ -211,7 +232,7 @@ function HomeScreen() {
               name={listItem.name}
               price={listItem.price}
               total={listItem.total}
-              remoneOne={removeOneHandler}
+              removeOne={removeOneHandler}
               delete={deleteHandler}
             />
           )}
@@ -225,7 +246,13 @@ function HomeScreen() {
                   <rect x="2.20688" y="0.594833" width="20" height="2" transform="rotate(50 2.20688 0.594833)" fill="#161D39"/>
               </svg>
               <div id="instruct-txt">Enter the code of your past order.</div>
-              <input readOnly type="text" name="output" id="output"></input>
+              <input 
+               onKeyPress={(e) => {
+                if (e.key === "Enter") {
+                  enterCode();
+                }
+            }}
+              maxLength="8" autoComplete="off" type="text" name="output" id="output"></input>
               <div className="virtual-keyboard">
                   <div className="row">
                       <input onClick={e => {pressKey(e.target.value);}} className="key" type="button" value="1"></input>

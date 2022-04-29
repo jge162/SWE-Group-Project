@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import './css/lookUpScreen.css';
 import groceryUtils from './grocery';
 function SearchList({ filteredItems }) {
@@ -22,7 +22,7 @@ function SearchList({ filteredItems }) {
   }
 
   const filtered = filteredItems.map(item =>
-    <div key={item.id} onClick={() => { itemDetails(item); }} className="grocery-box">
+    <div key={item.id} onClick={() => { itemDetails(item); document.getElementById("add-amount").focus(); }} className="grocery-box">
       <img draggable="false" className="image-item" alt={item.name} src={item.imgPath} />
       <div>
         <div className="item-label" >{item.name}</div>
@@ -47,7 +47,7 @@ function SearchList({ filteredItems }) {
     if (prevText === "")
       setZeroDisabled(true);
   }
-
+  
   const enterAmount = () => {
     document.getElementById("quantity-error").style.display = "none";
 
@@ -67,7 +67,6 @@ function SearchList({ filteredItems }) {
 
     if (exceedsAmount) 
       return;
-
 
     setAmountField(document.querySelector("#add-amount").value);
 
@@ -107,6 +106,22 @@ function SearchList({ filteredItems }) {
     document.location.reload();
   }
 
+  const escFunction = useCallback((event) => {
+    if (event.key) {
+      const end = document.getElementById("add-amount").value.length;
+
+      document.getElementById("add-amount").setSelectionRange(end, end);
+      document.getElementById("add-amount").focus()
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, []);
 
   return (
     <>
@@ -118,7 +133,23 @@ function SearchList({ filteredItems }) {
           </svg>
           <div id="add-question">How many would you like to add {"\n"}for the following item: <input id="item-name" readOnly style={{ fontFamily: "Poppins", fontWeight: "bold", fontSize: "16px", color: "blue", border: "none", width: "100%", textAlign: "center" }} value={groceryItem}></input></div>
           <div id="quantity-error">Item quantity exceeds allowed {"\n"} amount of 999 and under</div>
-          <input readOnly id="add-amount" type="text" />
+          <input 
+          onKeyPress={(e) => {
+            if (e.key === "Enter") {
+              enterAmount();
+            }
+          }}
+          onChange={(e) => {
+            const re = /^[0-9\b]+$/;
+            if (e.target.value === '' || re.test(e.target.value)) {
+               setAmountField(e.target.value)
+            }
+            else {
+              removeNumber()
+            }
+          } 
+          }
+          autoComplete="off" maxLength="3" id="add-amount" type="text" />
           <div id="number-pad">
             <input id="number-btn" onClick={e => { pressNumberPad(e.target.value); }} value="1" type="button" className="number-btn"></input>
             <input id="number-btn" onClick={e => { pressNumberPad(e.target.value); }} value="2" type="button" className="number-btn"></input>

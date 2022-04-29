@@ -57,7 +57,7 @@ function GroceryList() {
               name={listItem.name}
               price={listItem.price}
               total={listItem.total}
-              remoneOne={removeOneHandler}
+              removeOne={removeOneHandler}
               delete={deleteHandler}
             />
           )}

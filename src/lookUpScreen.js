@@ -1,6 +1,6 @@
 import './css/lookUpScreen.css';
 import initialDetails from './media/initialDetails';
-import React, { useState } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import SearchList from './SearchList';
 
 const LookUpScreen = () => {
@@ -74,6 +74,21 @@ const LookUpScreen = () => {
     keyboardButton("");
   }
 
+  const escFunction = useCallback((event) => {
+    if (event.key) {
+      const end = document.getElementById("search-bar").value.length;
+      document.getElementById("search-bar").setSelectionRange(end, end);
+    }
+  }, []);
+
+  useEffect(() => {
+    document.addEventListener("keydown", escFunction, false);
+
+    return () => {
+      document.removeEventListener("keydown", escFunction, false);
+    };
+  }, []);
+
   return (
     <div id="look-up-screen">
       <svg id="go-back-btn" onClick={() => {goBack();}} width="16" height="16" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -81,7 +96,11 @@ const LookUpScreen = () => {
       </svg>
     <div style={{marginLeft:"71px"}}>
       <div className="search">
-        <input readOnly onClick={() => {searchScreen();}} id="search-bar" type="search" placeholder="Search"/>
+        <input onChange={(e) => {
+            setSearchField(document.querySelector("#search-bar").value);
+          } 
+          }
+          autoComplete="off" onClick={() => {searchScreen();}} id="search-bar" type="search" placeholder="Search"/>
       </div>
       <div id="category-btns">
         <div onClick={e => {categoryButton("fruit");}} id="fruit-btn" className="cat-btn">Fruit</div>

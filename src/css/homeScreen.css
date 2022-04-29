@@ -123,7 +123,7 @@
   .item-cost {
     display: flex;
     align-items: center;
-    margin-right: 14px;
+    margin-right: 15px;
     font-family: Poppins;
     font-weight: 500;
     font-size: 11px;
@@ -140,9 +140,10 @@
   .item-total {
     display: flex;
     align-items: center;
-    justify-content: flex-end;
+    justify-content: center;
     width: 80px;
-    margin-right: 34px;
+    margin-right: 20px;
+    margin-left: 15px;
     font-family: Poppins;
     font-weight: 500;
     font-size: 11px;
@@ -433,9 +434,9 @@
     font-size: 15px;
     line-height: 22px;    
     color: #161D39;
-    margin-left: 61px;
     padding-top: 31px;
     padding-bottom: 31px;
+    justify-content: center;
   }
   
   #grand-total-amount {
@@ -542,6 +543,7 @@
     color: #161D39;
     text-shadow: 2px 1px rgb(200, 200, 200);
     border: none;
+    outline: none;
   }
 
   .okay-opt {
@@ -639,7 +641,7 @@
   #pop-up-3 {
     display: none;
     position: absolute;
-    animation: fadeIn 1s linear;
+    animation: fadeIn 2s linear;
     margin-top: 38px;
   }
 
