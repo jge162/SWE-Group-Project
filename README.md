@@ -1,6 +1,6 @@
 # CPSC 362 - Foundations in Software Engineering
 # Getting Started with Create React App
-## Link to [website, The Grocery Experience](https://362-group-project.vercel.app/)
+## Link to website, [The Grocery Experience](https://362-group-project.vercel.app/)
 
 <img width="1025" alt="Screenshot 2023-04-22 at 4 12 23 PM" src="https://user-images.githubusercontent.com/31228460/233811390-9b60e33f-649c-44e8-8a09-636a4e87d0eb.png">
 
