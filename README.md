@@ -1,6 +1,6 @@
 # CPSC 362 - Foundations in Software Engineering
 # Getting Started with Create React App
-
+## Link to [website](https://362-group-project.vercel.app/)
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
