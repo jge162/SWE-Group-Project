@@ -1,2 +1,2 @@
-# 362-Group-Project
-Initial program
+# CPSC362-Group-Project
+## Foundations of Software Engineering
