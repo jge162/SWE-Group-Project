@@ -2,10 +2,6 @@
 
 ## Link to website, [The Grocery Experience](https://362-group-project.vercel.app/)
 
-<img width="1025" alt="Screenshot 2023-04-22 at 4 12 23 PM" src="https://user-images.githubusercontent.com/31228460/233811390-9b60e33f-649c-44e8-8a09-636a4e87d0eb.png">
-
-![image](https://user-images.githubusercontent.com/31228460/234137642-510ebc21-3d23-4899-a28f-97910240b9ac.png)
-
 <div>
   <img src="https://user-images.githubusercontent.com/31228460/233811390-9b60e33f-649c-44e8-8a09-636a4e87d0eb.png" alt="Screenshot 2023-04-22 at 4 12 23 PM" width="48%" />
   <img src="https://user-images.githubusercontent.com/31228460/234137642-510ebc21-3d23-4899-a28f-97910240b9ac.png" alt="image" width="48%" />
