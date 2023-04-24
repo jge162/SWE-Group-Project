@@ -3,9 +3,10 @@
 ## Link to website, [The Grocery Experience](https://362-group-project.vercel.app/)
 
 <div>
-  <img src="https://user-images.githubusercontent.com/31228460/233811390-9b60e33f-649c-44e8-8a09-636a4e87d0eb.png" alt="Screenshot 2023-04-22 at 4 12 23 PM" width="48%" />
+  <img src="https://user-images.githubusercontent.com/31228460/234137852-31829212-1cc2-4caa-b59a-978c0d549a57.png" alt="Screenshot 2023-04-22 at 4 12 23 PM" width="48%" />
   <img src="https://user-images.githubusercontent.com/31228460/234137642-510ebc21-3d23-4899-a28f-97910240b9ac.png" alt="image" width="48%" />
 </div>
+
 
 # Getting Started with Create React App
 
