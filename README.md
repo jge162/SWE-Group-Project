@@ -1,4 +1,4 @@
-# CPSC 362 - Foundations in Software Engineering
+# CPSC 362 - Foundation in Software Engineering
 
 ## Link to website, [The Grocery Experience](https://362-group-project.vercel.app/)
 
