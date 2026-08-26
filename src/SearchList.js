@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import './css/lookUpScreen.css';
 import groceryUtils from './grocery';
 function SearchList({ filteredItems }) {
