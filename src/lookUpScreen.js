@@ -1,6 +1,6 @@
 import './css/lookUpScreen.css';
 import initialDetails from './media/initialDetails';
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState } from 'react';
 import SearchList from './SearchList';
 
 const LookUpScreen = () => {
